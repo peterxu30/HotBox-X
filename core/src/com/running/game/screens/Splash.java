@@ -14,6 +14,13 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.running.game.tween.SpriteAccessor;
 
+/**
+ * Splash screen for game. This is the first screen you see. Fades splash art
+ * in and out. Leads to GameMain screen at the moment, plan to lead to MainMenu
+ * after MainMenu is implemented.
+ * @author Peter
+ *
+ */
 public class Splash implements Screen {
 	private SpriteBatch batch;
 	private Sprite splash;

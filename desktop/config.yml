@@ -1,0 +1,44 @@
+---
+# All base configurations can be found in the GameMain.java file
+# To reset this file to base configurations, simply delete this file and run the game.
+boundaryWidth: 60f
+playerWidth: 40f
+playerHeight: 40f
+playerSpeed: 10f
+startingY: 100f
+obstacleDistribution: uniform
+obstacleWidth: 60f
+obstacleHeight: 10f
+obstacleSpeed: 10f
+obstacleSpawnHeight: 700f
+obstacleAccelerationBoolean: false
+obstacleAccelerationRate: 0f
+waveTime: 1000000000
+waveTimeMultiplier: 1
+rewardValue: 1
+gameMode: permadeath
+zoned: false
+
+### Config Notes ###
+#
+## boundaryWidth #
+# boundaryWidth is the width of the margins to the left and right
+# of the play field.
+#
+## playerSpeed #
+# playerSpeed is for continuous movement only. 
+# You cannot change the speed of the zoned game mode.
+#
+## startingX #
+# startingX is not configurable. It is always the middle of the screen.
+#
+## startingY #
+# startingY represents the vertical start position of the player.
+# The sprite will be drawn such that its bottom side corner is at startingY.
+#
+## Wave Time #
+# waveTime cannot exceed 2147483647 due to the nature of the Integer class.
+# There were issues with the file parser not recognizing Long.
+# If you desire a longer duration between waves, add a multiplier.
+# Net waveTime = waveTime x waveTimeMultiplier
+#

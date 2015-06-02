@@ -1,0 +1,14 @@
+---
+# All base configurations can be found in the GameMain.java file
+# To reset this file to base configurations, simply delete this file and run the game.
+playerSpeed: 10f
+obstacleDistribution: uniform
+obstacleWidth: 60f
+obstacleSpeed: 10f
+obstacleSpawnHeight: 700f
+obstacleAccelerationBoolean: false
+obstacleAccelerationRate: 0f
+waveTime: 1000000000
+rewardValue: 1
+gameMode: permadeath
+zoned: false
