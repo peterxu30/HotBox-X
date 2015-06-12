@@ -1,5 +1,6 @@
 package com.running.game.screens;
 
+import oldCode.Play;
 import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
@@ -43,7 +44,8 @@ public class Splash implements Screen {
 			public void onEvent(int arg0, BaseTween<?> arg1) {
 				// TODO Auto-generated method stub
 //				((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenu());
-				((Game) Gdx.app.getApplicationListener()).setScreen(new GameMain());
+//				((Game) Gdx.app.getApplicationListener()).setScreen(new GameMain());
+				((Game) Gdx.app.getApplicationListener()).setScreen(new Play());
 			}
 			
 		}).start(tweenManager);
@@ -82,6 +84,7 @@ public class Splash implements Screen {
 	@Override
 	public void hide() {
 		// TODO Auto-generated method stub
+		dispose();
 		
 	}
 

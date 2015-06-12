@@ -1,23 +1,29 @@
 ---
 # All base configurations can be found in the GameMain.java file
 # To reset this file to base configurations, simply delete this file and run the game.
-boundaryWidth: 60f
+gameMode: permadeath
+zoned: false
+scoreTime: 75000000.0
+rewardValue: 1
+
 playerWidth: 40f
 playerHeight: 40f
 playerSpeed: 10f
-startingY: 100f
+startingY: 70f
+
 obstacleDistribution: uniform
-obstacleWidth: 60f
-obstacleHeight: 10f
+maxNumberOfObstacles: 3
+waveTime: 1000000000.0
+
+#experimental
+minimumObstacleWidth: 60f
+
+obstacleHeight: 20f
 obstacleSpeed: 10f
 obstacleSpawnHeight: 700f
 obstacleAccelerationBoolean: false
 obstacleAccelerationRate: 0f
-waveTime: 1000000000
-waveTimeMultiplier: 1
-rewardValue: 1
-gameMode: permadeath
-zoned: false
+
 
 ### Config Notes ###
 #
@@ -37,8 +43,8 @@ zoned: false
 # The sprite will be drawn such that its bottom side corner is at startingY.
 #
 ## Wave Time #
-# waveTime cannot exceed 2147483647 due to the nature of the Integer class.
-# There were issues with the file parser not recognizing Long.
-# If you desire a longer duration between waves, add a multiplier.
-# Net waveTime = waveTime x waveTimeMultiplier
+# The amount of time (in nanoseconds) between waves.
+# waveTime must end in ".0" for the parser to recognize it as a Double, 
+# which is subsequently converted to a long as the parser is unable to recognize
+# longs on its own.
 #

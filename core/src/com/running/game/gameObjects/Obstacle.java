@@ -34,20 +34,42 @@ public class Obstacle extends Rectangle {
 		moveSpeed = ms;
 	}
 	
-	public float getX() {
-		return this.x;
+	@Override
+	public Rectangle setX(float x) {
+		this.x = x;
+		obstacleSprite.setPosition(x, y);
+		return this;
 	}
 	
-	public float getY() {
-		return this.y;
+	@Override
+	public Rectangle setY(float y) {
+		this.y = y;
+		obstacleSprite.setPosition(x, y);
+		return this;
 	}
 	
 	public float getWidth() {
 		return this.width;
 	}
 	
+	@Override
+	public Rectangle setWidth(float w) {
+		width = w;
+		obstacleSprite = new Sprite(obstacleImage, ((int) width), ((int) height));
+		obstacleSprite.setPosition(x, y);
+		return this;
+	}
+	
 	public float getHeight() {
 		return this.height;
+	}
+	
+	@Override
+	public Rectangle setHeight(float h) {
+		height = h;
+		obstacleSprite = new Sprite(obstacleImage, ((int) width), ((int) height));
+		obstacleSprite.setPosition(x, y);
+		return this;
 	}
 	
 	public void updateMotion() {

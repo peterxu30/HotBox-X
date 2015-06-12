@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.running.game.helpers.AssetLoader;
+import com.running.game.screens.GameScreen;
 import com.running.game.screens.Splash;
 
 public class RunningGame extends Game {
@@ -17,7 +19,9 @@ public class RunningGame extends Game {
 	
 	@Override
 	public void create() {
-		setScreen(new Splash());
+//		setScreen(new Splash());
+		AssetLoader.load();
+		setScreen(new GameScreen());
 	}
 	
 	@Override
