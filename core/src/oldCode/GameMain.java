@@ -34,8 +34,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.running.game.config.Config;
-import com.running.game.gameObjects.Obstacle;
-import com.running.game.gameObjects.ObstacleCreator;
 
 /**
  * GameMain is the screen where gameplay takes place.
@@ -75,7 +73,7 @@ public class GameMain implements Screen {
 	 * Responsible for both creation of obstacles as well as rewards?
 	 */
 	private ObstacleCreator obstacleMaker;
-	private final ArrayList<Obstacle> wave = new ArrayList<Obstacle>();
+	private final ArrayList<Obstacle_OLD> wave = new ArrayList<Obstacle_OLD>();
 	private String obstacleDistribution = "uniform"; // add to obstacleCreator
 	private float obstacleSpawnHeight = 700f;
 	private float minObstacleWidth = 60f;
@@ -254,7 +252,7 @@ public class GameMain implements Screen {
 	 * the object type the player collided with.
 	 */
 	private void collisionUpdate() {
-		for (Obstacle obs : wave) {
+		for (Obstacle_OLD obs : wave) {
 			if (Intersector.overlaps(player.hitBox, obs)) {
 				((Game) Gdx.app.getApplicationListener()).setScreen(new GameMain());
 			}
@@ -268,7 +266,7 @@ public class GameMain implements Screen {
 	 */
 	private void updateMotion() {
 		player.updateMotion();
-		for (Obstacle obs: wave) {
+		for (Obstacle_OLD obs: wave) {
 			obs.updateMotion();
 			if ((obs.y + (obs.height / 2)) < 0f) {
 				obs.dispose();
@@ -287,7 +285,7 @@ public class GameMain implements Screen {
 			text.draw(batch, "Paused", screenWidth/2 - 30, 450);
 		}
 		player.playerSprite.draw(batch);
-		for (Obstacle obs : wave) {
+		for (Obstacle_OLD obs : wave) {
 			obs.obstacleSprite.draw(batch);
 		}
 		batch.end();
@@ -390,7 +388,7 @@ public class GameMain implements Screen {
 		// TODO Auto-generated method stub
 		batch.dispose();
 		player.playerSprite.getTexture().dispose();
-		for (Obstacle obs : wave) {
+		for (Obstacle_OLD obs : wave) {
 			obs.dispose();
 		}
 		text.dispose();
