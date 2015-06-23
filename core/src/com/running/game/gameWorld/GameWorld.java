@@ -162,7 +162,7 @@ public class GameWorld {
 			testObstacle = new Obstacle(physicsWorld, 700f/scale, 240f/scale, 20f/scale, 40f/scale);
 			testObstacle.setSpeed(8f);
 			wave.add(testObstacle);
-			Reward testReward = new Reward(physicsWorld, 700f/scale, 360f/scale, 20f/scale, 20f/scale);
+			Reward testReward = new Reward(physicsWorld, 700f/scale, 80f/scale, 20f/scale, 20f/scale);
 			testReward.setSpeed(8f);
 			wave.add(testReward);
 //			wave.addAll(objectMaker.createWave());
