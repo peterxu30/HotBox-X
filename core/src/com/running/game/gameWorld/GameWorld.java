@@ -45,7 +45,7 @@ public class GameWorld {
 	private ArrayList<GameObject> wave;
 	
 	private long lastWaveTime;
-	private long waveTime = 900000000;
+	private long waveTime = 999990000;
 	
 	private int score;
 	
@@ -56,6 +56,10 @@ public class GameWorld {
 		player = new Player(physicsWorld, 60f/scale, 240f/scale, 6f, scale);
 		addBoundaries();
 		wave = new ArrayList<GameObject>();
+		
+		//test
+		objectMaker = new GameObjectMaker(physicsWorld, 800f, 20f, 8f, 2);
+		objectMaker.setScale(40f).setDistribution("uniform");
 	}
 	
 	private void setContactListener() {
@@ -159,13 +163,16 @@ public class GameWorld {
 	 */
 	private void newWave() {
 		if (TimeUtils.nanoTime() - lastWaveTime > waveTime) {
-			testObstacle = new Obstacle(physicsWorld, 700f/scale, 240f/scale, 20f/scale, 40f/scale);
-			testObstacle.setSpeed(8f);
-			wave.add(testObstacle);
-			Reward testReward = new Reward(physicsWorld, 700f/scale, 80f/scale, 20f/scale, 20f/scale);
-			testReward.setSpeed(8f);
-			wave.add(testReward);
-//			wave.addAll(objectMaker.createWave());
+//			testObstacle = new Obstacle(physicsWorld, 700f/scale, 240f/scale, 20f/scale, 80f/scale);
+//			testObstacle.setSpeed(8f);
+//			wave.add(testObstacle);
+//			Reward testReward = new Reward(physicsWorld, 700f/scale, 60f/scale, 20f/scale, 20f/scale);
+//			testReward.setSpeed(8f);
+//			wave.add(testReward);
+//			Obstacle testObstacle2 = new Obstacle(physicsWorld, 700f/scale, 200f/scale, 20f/scale, 80f/scale);
+//			testObstacle2.setSpeed(8f);
+//			wave.add(testObstacle2);
+			wave.addAll(objectMaker.createWave());
 			lastWaveTime = TimeUtils.nanoTime();
 		}
 	}

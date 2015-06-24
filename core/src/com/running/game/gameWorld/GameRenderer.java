@@ -3,6 +3,7 @@ package com.running.game.gameWorld;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
@@ -75,7 +76,11 @@ public class GameRenderer {
         	float objY = (obj.getBody().getPosition().y - (obj.getHeight() / 2)) * scale;
         	float objWidth = obj.getWidth() * scale;
         	float objHeight = obj.getHeight() * scale;
-        	batch.draw(AssetLoader.obstacleTexture, objX, objY, objWidth, objHeight);
+        	Texture objTexture = AssetLoader.obstacleTexture;
+        	if (obj.getItemID() == 2) {
+        		objTexture = AssetLoader.rewardTexture;
+        	}
+        	batch.draw(objTexture, objX, objY, objWidth, objHeight);
         }
 	}
 	

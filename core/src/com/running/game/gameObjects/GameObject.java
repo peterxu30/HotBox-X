@@ -63,6 +63,10 @@ public abstract class GameObject {
 		((GameObjectData) objectBody.getUserData()).setID(id);
 	}
 	
+	public int getItemID() {
+		return ((GameObjectData) objectBody.getUserData()).getID();
+	}
+	
 	public boolean checkRemove() {
 		GameObjectData data = (GameObjectData) objectBody.getUserData();
 		return data.checkRemove();

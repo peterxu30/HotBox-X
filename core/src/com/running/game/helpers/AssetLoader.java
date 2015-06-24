@@ -18,6 +18,7 @@ public class AssetLoader {
 	public static void load() {
 		playerTexture = new Texture(Gdx.files.internal("img/player.png"));
 		obstacleTexture = new Texture(Gdx.files.internal("img/obstacle.png"));
+		rewardTexture = new Texture(Gdx.files.internal("img/reward.png"));
 	}
 	
 	private static void readConfig() throws FileNotFoundException {
