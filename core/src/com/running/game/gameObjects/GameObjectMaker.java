@@ -57,6 +57,8 @@ public class GameObjectMaker {
 	public ArrayList<GameObject> createWave() {
 		ArrayList<GameObject> wave = new ArrayList<GameObject>();
 		//must have 2 zone wide gap for player
+		boolean rewarded = false;
+		float rewardY = 0;
 		int numberGaps = (randomizer() % 3) + 1;
 		boolean[] zones = new boolean[9];
 		while (numberGaps > 0) {
@@ -68,6 +70,10 @@ public class GameObjectMaker {
 				if (gap < zones.length - 1) {
 					zones[gap + 1] = true;
 				}
+				if (!rewarded) {
+					rewardY = (gap + 2) * zoneHeight;
+					rewarded = true;
+				}
 				zones[gap] = true;
 				numberGaps -= 1;
 			}
@@ -76,7 +82,7 @@ public class GameObjectMaker {
 		// if gap, roll for reward
 		// if no gap, fill with obstacle
 		int obsWidth = 0;
-		boolean rewarded = false;
+		
 		for (int i = 0; i < zones.length; i++) {
 			int zone = i + 2;
 			float y = zone * zoneHeight;
@@ -85,13 +91,12 @@ public class GameObjectMaker {
 				obs.setSpeed(ms);
 				wave.add(obs);
 			} else {
-				if (!rewarded) {
+				if (rewarded) {
 					if ((i > 0 && i < (zones.length - 1) && zones[i - 1] && zones[i + 1])
 							|| ((i == 0 && zones[i + 1]) || (i == zones.length - 1 && zones[i - 1]))) {
-						Reward reward = new Reward(world, spawnX/scale, (y)/scale, width/scale, 20f/scale);
+						Reward reward = new Reward(world, spawnX/scale, rewardY/scale, width/scale, 20f/scale);
 						reward.setSpeed(ms);
 						wave.add(reward);
-						rewarded = true;
 					}
 				}
 			}
