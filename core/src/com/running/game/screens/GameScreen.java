@@ -1,5 +1,6 @@
 package com.running.game.screens;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
@@ -32,6 +33,14 @@ public class GameScreen implements Screen {
 		world.update(timeStep);
 //		System.out.println(timeStep);
 		renderer.render();
+		checkGameStatus();
+	}
+	
+	private void checkGameStatus() {
+		if (world.isGameOver()) {
+			dispose();
+			((Game) Gdx.app.getApplicationListener()).setScreen(new GameScreen());
+		}
 	}
 
 	@Override
@@ -61,6 +70,7 @@ public class GameScreen implements Screen {
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
+		Gdx.app.log("GameScreen", "Dispose");
 		renderer.dispose();
 		world.dispose();
 	}

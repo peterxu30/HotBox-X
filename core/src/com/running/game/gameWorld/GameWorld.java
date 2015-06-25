@@ -8,6 +8,7 @@ import oldCode.Play;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -34,15 +35,15 @@ import com.running.game.screens.GameScreen;
 import com.running.game.screens.Splash;
 
 public class GameWorld {
-
+	
 	private World physicsWorld;
 	private float scale;
+	private boolean gameOver;
 	
 	private Player player;
 	private Body groundBody;
 	private Body skyBody;
 	private GameObjectMaker objectMaker;
-	private Obstacle testObstacle;
 	
 	private ArrayList<GameObject> wave;
 	
@@ -53,6 +54,7 @@ public class GameWorld {
 	private int score;
 	
 	public GameWorld(float gravityY) {
+		gameOver = false;
 		scale = Config.scale;
 		physicsWorld = new World(new Vector2(0, gravityY), true);
 		setContactListener();
@@ -91,10 +93,21 @@ public class GameWorld {
 					//game Over or penalty
 					//if penalty, dataA.markRemove();
 //					System.out.println("CONTACT OBSTACLE");
+					
+					/* if (penaltyMode) {
+					 * 	score -= Config.deathPenalty;
+					 *  if (score <= Config.minScore) {
+					 *   gameOver = true;
+					 *  }
+					 * } else if (deathMode) {
+					 * 	gameOver = true;
+					 * }
+					 * gameObjectData.markRemove();
+					 */
+						 
 					gameObjectData.markRemove();
-					((Game) Gdx.app.getApplicationListener()).setScreen(new GameScreen());
+					gameOver = true;
 				}
-				
 			}
 
 			@Override
@@ -116,6 +129,10 @@ public class GameWorld {
 			}
 			
 		});
+	}
+	
+	public boolean isGameOver() {
+		return gameOver;
 	}
 	
 	private void addBoundaries() {

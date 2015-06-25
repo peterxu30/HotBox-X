@@ -91,7 +91,7 @@ public class GameRenderer {
 	}
 	
 	public void dispose() {
-		AssetLoader.dispose();
+//		AssetLoader.dispose();
 		batch.dispose();
 	}
 	

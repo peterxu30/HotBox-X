@@ -20,7 +20,7 @@ public class InputHandler implements InputProcessor {
 	@Override
 	public boolean keyDown(int keycode) {
 		// TODO Auto-generated method stub
-//		Gdx.app.log("InputHandler", "space down");
+		Gdx.app.log("InputHandler", "space down");
 		switch (keycode) {
 		case (Keys.SPACE):
 			player.move();

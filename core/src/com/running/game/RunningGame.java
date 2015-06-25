@@ -34,6 +34,7 @@ public class RunningGame extends Game {
 	
 	@Override
 	public void dispose() {
+		Gdx.app.log("RunningGame", "Dispose");
 		super.dispose();
 		AssetLoader.dispose();
 	}

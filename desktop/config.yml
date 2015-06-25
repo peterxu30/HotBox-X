@@ -7,6 +7,8 @@ gameMode: permadeath
 rewardValue: 1
 deathPenalty: 1 
 #deathPenalty doesn't work yet
+minScore: 0
+#minimumScore doesn't work yet
 
 playerSpeed: 6f
 playerX: 60f
@@ -38,6 +40,9 @@ objectSpawnX: 800f
 #
 ## deathPenalty #
 # Amount of points lost per collision when playing on 'penalty' mode
+#
+## minScore #
+# Lowest amount of points player can have in 'penalty' mode to keep game from ending.
 #
 ## playerSpeed #
 # Vertical velocity given to player on key press.
