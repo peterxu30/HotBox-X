@@ -31,6 +31,7 @@ import com.running.game.gameObjects.Reward;
 import com.running.game.helpers.AssetLoader;
 import com.running.game.helpers.Config;
 import com.running.game.screens.GameScreen;
+import com.running.game.screens.Splash;
 
 public class GameWorld {
 
@@ -84,12 +85,12 @@ public class GameWorld {
 				if (gameObjectData != null && (int) gameObjectData.getID() == 2) {
 					//Need to implement reward, score + 1
 					score += Config.rewardValue;
-					System.out.println("CONTACT REWARD");
+//					System.out.println("CONTACT REWARD");
 					gameObjectData.markRemove();
 				} else if (gameObjectData != null && gameObjectData.getID() == 1) {
 					//game Over or penalty
 					//if penalty, dataA.markRemove();
-					System.out.println("CONTACT OBSTACLE");
+//					System.out.println("CONTACT OBSTACLE");
 					gameObjectData.markRemove();
 					((Game) Gdx.app.getApplicationListener()).setScreen(new GameScreen());
 				}
@@ -162,19 +163,8 @@ public class GameWorld {
 	 * sufficient time (waveTime) has passed since the last wave.
 	 */
 	private void newWave() {
-//		if (TimeUtils.nanoTime() - lastWaveTime > waveTime) {
 		if (TimeUtils.millis() - lastWaveTime > waveTime) {
-//			testObstacle = new Obstacle(physicsWorld, 700f/scale, 240f/scale, 20f/scale, 80f/scale);
-//			testObstacle.setSpeed(8f);
-//			wave.add(testObstacle);
-//			Reward testReward = new Reward(physicsWorld, 700f/scale, 60f/scale, 20f/scale, 20f/scale);
-//			testReward.setSpeed(8f);
-//			wave.add(testReward);
-//			Obstacle testObstacle2 = new Obstacle(physicsWorld, 700f/scale, 200f/scale, 20f/scale, 80f/scale);
-//			testObstacle2.setSpeed(8f);
-//			wave.add(testObstacle2);
 			wave.addAll(objectMaker.createWave());
-//			lastWaveTime = TimeUtils.nanoTime();
 			lastWaveTime = TimeUtils.millis();
 		}
 	}
@@ -187,6 +177,15 @@ public class GameWorld {
 				iterator.remove();
 			}
 		}
+	}
+	
+	public void dispose() {
+		for (Iterator<GameObject> iterator = wave.iterator(); iterator.hasNext();) {
+		    GameObject obj = iterator.next();
+			physicsWorld.destroyBody(obj.getBody());
+			iterator.remove();
+		}
+		physicsWorld.dispose();
 	}
 	
 	public Player getPlayer() {

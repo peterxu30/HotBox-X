@@ -2,6 +2,7 @@ package com.running.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.running.game.gameWorld.GameRenderer;
 import com.running.game.gameWorld.GameWorld;
 import com.running.game.helpers.InputHandler;
@@ -15,14 +16,13 @@ public class GameScreen implements Screen {
 	
 	public GameScreen() {
 		world = new GameWorld(9.8f);
-		renderer = new GameRenderer(world, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), scale);
+		renderer = new GameRenderer(world, 800f, 480f, scale);
 		Gdx.input.setInputProcessor(new InputHandler(world.getPlayer()));
 	}
 	
 	@Override
 	public void show() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -37,6 +37,7 @@ public class GameScreen implements Screen {
 	@Override
 	public void resize(int width, int height) {
 		// TODO Auto-generated method stub
+		renderer.resize(width, height);
 	}
 
 	@Override
@@ -61,6 +62,7 @@ public class GameScreen implements Screen {
 	public void dispose() {
 		// TODO Auto-generated method stub
 		renderer.dispose();
+		world.dispose();
 	}
 
 }

@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.running.game.gameObjects.GameObject;
 import com.running.game.gameObjects.Player;
 import com.running.game.helpers.AssetLoader;
@@ -17,6 +19,7 @@ public class GameRenderer {
 
 	private GameWorld world;
 	private OrthographicCamera camera;
+	private Viewport viewport;
 	private ShapeRenderer shapeRenderer;
 	private SpriteBatch batch;
 	private float scale;
@@ -30,8 +33,7 @@ public class GameRenderer {
 		this.scale = scale;
 		camera = new OrthographicCamera();
 		camera.setToOrtho(true, width, height);
-		
-		debugRenderer = new Box2DDebugRenderer();
+		viewport = new FitViewport(width, height, camera);
 		
 		shapeRenderer = new ShapeRenderer();
 		shapeRenderer.setProjectionMatrix(camera.combined);
@@ -82,6 +84,10 @@ public class GameRenderer {
         	}
         	batch.draw(objTexture, objX, objY, objWidth, objHeight);
         }
+	}
+	
+	public void resize(int width, int height) {
+		viewport.update(width, height);
 	}
 	
 	public void dispose() {

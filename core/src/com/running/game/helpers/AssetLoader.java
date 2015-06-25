@@ -12,19 +12,23 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class AssetLoader {
 	
-	public static Texture playerTexture, obstacleTexture, rewardTexture; 
-	private static Map configMap;
+	public static Texture playerTexture; 
+	public static Texture obstacleTexture;
+	public static Texture rewardTexture;
+	public static Texture endurance;
 	
 	public static void load() {
 		playerTexture = new Texture(Gdx.files.internal("img/player.png"));
 		obstacleTexture = new Texture(Gdx.files.internal("img/obstacle.png"));
 		rewardTexture = new Texture(Gdx.files.internal("img/reward.png"));
+		endurance = new Texture(Gdx.files.internal("img/endurance.png"));
 	}
 	
 	public static void dispose() {
 		playerTexture.dispose();
 		obstacleTexture.dispose();
 		rewardTexture.dispose();
+		endurance.dispose();
 	}
 	
 }

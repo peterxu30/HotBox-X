@@ -69,7 +69,7 @@ public class Player {
 	
 	public void move() {
 		playerBody.setLinearVelocity(0, -upYSpeed);
-		Gdx.app.log("Player", "move");
+//		Gdx.app.log("Player", "move");
 	}
 	
 }

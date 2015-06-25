@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.PriorityQueue;
 import java.util.Random;
 
-import org.apache.commons.math3.distribution.AbstractRealDistribution;
 import org.apache.commons.math3.distribution.NormalDistribution;
 import org.apache.commons.math3.distribution.UniformIntegerDistribution;
 
@@ -15,8 +14,7 @@ import com.running.game.helpers.Config;
 public class GameObjectMaker {
 	private World world;
 	private float scale;
-	private float zoneHeight = Gdx.graphics.getHeight() / 12;
-	private float minHeight = zoneHeight;
+	private float zoneHeight = 480 / 12;
 	
 	private String distType;
 	private Object distribution;
@@ -81,7 +79,7 @@ public class GameObjectMaker {
 			boolean rewarded, 
 			float rewardY) {
 		//fill with objects, if gap, check for reward, if no gap, fill with obstacle
-		int obsWidth = 0;
+		int numberObstacles = 0;
 		for (int i = 0; i < zones.length; i++) {
 			int zone = i + 2;
 			float y = zone * zoneHeight;
@@ -89,6 +87,7 @@ public class GameObjectMaker {
 				Obstacle obs = new Obstacle(world, spawnX/scale, y/scale, width/scale, 80f/scale);
 				obs.setSpeed(ms);
 				wave.add(obs);
+				numberObstacles += 1;
 			} else {
 				if (rewarded) {
 					Reward reward = new Reward(world, spawnX/scale, rewardY/scale, width/scale, 20f/scale);
@@ -98,6 +97,15 @@ public class GameObjectMaker {
 				}
 			}
 		}
+//		if (numberObstacles == 0) {
+//			float obsY = (9 - randomizer()) * zoneHeight;
+//			while (obsY == rewardY || obsY == rewardY - zoneHeight || obsY == rewardY + zoneHeight) {
+//				obsY = (9 - randomizer()) * zoneHeight;
+//			}
+//			Obstacle obs = new Obstacle(world, spawnX/scale, obsY/scale, width/scale, 80f/scale);
+//			obs.setSpeed(ms);
+//			wave.add(obs);
+//		}
 		return wave;
 	}
 	
