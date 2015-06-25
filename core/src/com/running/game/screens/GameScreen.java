@@ -11,11 +11,11 @@ public class GameScreen implements Screen {
 	private GameWorld world;
 	private GameRenderer renderer;
 	private final float timeStep = 1/60f;
-	private final float meterToPixelScale = 40f;
+	private final float scale = 40f;
 	
 	public GameScreen() {
-		world = new GameWorld(9.8f, meterToPixelScale);
-		renderer = new GameRenderer(world, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), meterToPixelScale);
+		world = new GameWorld(9.8f);
+		renderer = new GameRenderer(world, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), scale);
 		Gdx.input.setInputProcessor(new InputHandler(world.getPlayer()));
 	}
 	
@@ -28,7 +28,9 @@ public class GameScreen implements Screen {
 	@Override
 	public void render(float delta) {
 		// TODO Auto-generated method stub
+//		world.update(Math.min(delta, timeStep));
 		world.update(timeStep);
+//		System.out.println(timeStep);
 		renderer.render();
 	}
 

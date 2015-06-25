@@ -29,6 +29,7 @@ import com.running.game.gameObjects.Obstacle;
 import com.running.game.gameObjects.Player;
 import com.running.game.gameObjects.Reward;
 import com.running.game.helpers.AssetLoader;
+import com.running.game.helpers.Config;
 import com.running.game.screens.GameScreen;
 
 public class GameWorld {
@@ -45,21 +46,21 @@ public class GameWorld {
 	private ArrayList<GameObject> wave;
 	
 	private long lastWaveTime;
-	private long waveTime = 999990000;
+//	private long waveTime = 999990000;
+	private long waveTime = Config.waveTime;
 	
 	private int score;
 	
-	public GameWorld(float gravityY, float scale) {
-		this.scale = scale;
+	public GameWorld(float gravityY) {
+		scale = Config.scale;
 		physicsWorld = new World(new Vector2(0, gravityY), true);
 		setContactListener();
-		player = new Player(physicsWorld, 60f/scale, 240f/scale, 6f, scale);
+		player = new Player(physicsWorld, Config.playerX/scale, Config.playerY/scale, Config.playerSpeed, scale);
 		addBoundaries();
 		wave = new ArrayList<GameObject>();
 		
 		//test
-		objectMaker = new GameObjectMaker(physicsWorld, 800f, 20f, 8f, 2);
-		objectMaker.setScale(40f).setDistribution("uniform");
+		objectMaker = new GameObjectMaker(physicsWorld);
 	}
 	
 	private void setContactListener() {
@@ -82,7 +83,7 @@ public class GameWorld {
 				
 				if (gameObjectData != null && (int) gameObjectData.getID() == 2) {
 					//Need to implement reward, score + 1
-					score += 1;
+					score += Config.rewardValue;
 					System.out.println("CONTACT REWARD");
 					gameObjectData.markRemove();
 				} else if (gameObjectData != null && gameObjectData.getID() == 1) {
@@ -150,7 +151,6 @@ public class GameWorld {
 	
 	public void update(float delta) {
 //		Gdx.app.log("Gameworld", "update");
-//		System.out.println(player.getY() * scale);
 		physicsWorld.step(delta, 6, 2);
 		newWave();
 		removeObjects();
@@ -162,7 +162,8 @@ public class GameWorld {
 	 * sufficient time (waveTime) has passed since the last wave.
 	 */
 	private void newWave() {
-		if (TimeUtils.nanoTime() - lastWaveTime > waveTime) {
+//		if (TimeUtils.nanoTime() - lastWaveTime > waveTime) {
+		if (TimeUtils.millis() - lastWaveTime > waveTime) {
 //			testObstacle = new Obstacle(physicsWorld, 700f/scale, 240f/scale, 20f/scale, 80f/scale);
 //			testObstacle.setSpeed(8f);
 //			wave.add(testObstacle);
@@ -173,7 +174,8 @@ public class GameWorld {
 //			testObstacle2.setSpeed(8f);
 //			wave.add(testObstacle2);
 			wave.addAll(objectMaker.createWave());
-			lastWaveTime = TimeUtils.nanoTime();
+//			lastWaveTime = TimeUtils.nanoTime();
+			lastWaveTime = TimeUtils.millis();
 		}
 	}
 	

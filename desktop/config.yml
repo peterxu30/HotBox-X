@@ -1,50 +1,85 @@
 ---
-# All base configurations can be found in the GameMain.java file
-# To reset this file to base configurations, simply delete this file and run the game.
-gameMode: permadeath
-zoned: false
-scoreTime: 75000000.0
+# don't change scale
+scale: 40.0 
+
+gameMode: permadeath 
+#gameMode doesn't work yet
 rewardValue: 1
+deathPenalty: 1 
+#deathPenalty doesn't work yet
 
-playerWidth: 40f
-playerHeight: 40f
-playerSpeed: 10f
-startingY: 70f
+playerSpeed: 6f
+playerX: 60f
+playerY: 240f
 
-obstacleDistribution: uniform
-maxNumberOfObstacles: 3
-waveTime: 1000000000.0
+distribution: uniform
+normalMean: 1.0
+normalSD: 1.0
+waveTime: 1200.0
 
-#experimental
-minimumObstacleWidth: 60f
-
-obstacleHeight: 20f
-obstacleSpeed: 10f
-obstacleSpawnHeight: 700f
-obstacleAccelerationBoolean: false
-obstacleAccelerationRate: 0f
+objectWidth: 20f
+objectSpeed: 6f
+objectSpawnX: 800f
 
 
 ### Config Notes ###
 #
-## boundaryWidth #
-# boundaryWidth is the width of the margins to the left and right
-# of the play field.
+## scale #
+# Scale to convert meters to pixels.
+# Used to convert physics engine calculations into graphics
+# Do not change!
+#
+## gameMode #
+# Switch between 'permadeath' and 'penalty' game modes
+# Affects obstacle collision behavior
+#
+## rewardValue #
+# Amount each reward is worth
+#
+## deathPenalty #
+# Amount of points lost per collision when playing on 'penalty' mode
 #
 ## playerSpeed #
-# playerSpeed is for continuous movement only. 
-# You cannot change the speed of the zoned game mode.
+# Vertical velocity given to player on key press.
+# playerSpeed * scale = speed in pixels
 #
-## startingX #
-# startingX is not configurable. It is always the middle of the screen.
+## playerX #
+# X-coordinate of the player in pixels.
+# Must be between 20 and 780
 #
-## startingY #
-# startingY represents the vertical start position of the player.
-# The sprite will be drawn such that its bottom side corner is at startingY.
+## playerY #
+# Starting y-coordinate of the player in pixels.
+# 0 is the top of the screen.
+# Must be between 60 and 420
 #
-## Wave Time #
-# The amount of time (in nanoseconds) between waves.
+## distribution #
+# The distribution of gaps. (Gaps are spaces between obstacles the player can go through)
+# Can be 'uniform' or 'normal'
+#
+## normalMean #
+# mean for normal distribution.
+# the game field is divided into 9 spawn zones for objects.
+# 9 invisible horizontal lines divide the play area
+# 0 is top most spawn line, 8 is bottom most spawn line
+# all samples from normal distributions are % 9
+# Game is just designed that way.
+#
+## normalSD #
+# standard deviation for normal distribution
+# % 9 from normalMean applies to this as well
+#
+## waveTime #
+# The amount of time (in milliseconds) between waves.
 # waveTime must end in ".0" for the parser to recognize it as a Double, 
 # which is subsequently converted to a long as the parser is unable to recognize
 # longs on its own.
 #
+## objectWidth #
+# Width (horizontal measurement) of obstacles in pixels.
+#
+## objectSpeed #
+# Speed objects come at the player.
+# objectSpeed * scale = speed in pixels.
+#
+## objectSpawnX #
+# Starting x-coordinate of objects in pixels.

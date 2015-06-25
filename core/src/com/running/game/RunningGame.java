@@ -1,5 +1,7 @@
 package com.running.game;
 
+import java.io.FileNotFoundException;
+
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -10,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.running.game.helpers.AssetLoader;
+import com.running.game.helpers.Config;
 import com.running.game.screens.GameScreen;
 import com.running.game.screens.Splash;
 
@@ -21,6 +24,11 @@ public class RunningGame extends Game {
 	public void create() {
 //		setScreen(new Splash());
 		AssetLoader.load();
+		try {
+			Config.load();
+		} catch (FileNotFoundException e) {
+			Gdx.app.log("Config Error", "File Missing");
+		}
 		setScreen(new GameScreen());
 	}
 	

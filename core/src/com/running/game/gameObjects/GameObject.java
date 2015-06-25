@@ -77,10 +77,6 @@ public abstract class GameObject {
 		private int ITEM_ID;
 		private boolean remove = false;
 		
-//		public GameObjectData() {
-//			
-//		}
-		
 		public void setID(int id) {
 			ITEM_ID = id;
 		}
