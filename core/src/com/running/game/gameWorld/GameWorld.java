@@ -135,6 +135,10 @@ public class GameWorld {
 		return gameOver;
 	}
 	
+	public void setGameOver() {
+		gameOver = true;
+	}
+	
 	private void addBoundaries() {
 		
 		BodyDef bodyDef = new BodyDef();
@@ -197,6 +201,7 @@ public class GameWorld {
 	}
 	
 	public void dispose() {
+		Gdx.app.log("GameWorld", "Dispose");
 		for (Iterator<GameObject> iterator = wave.iterator(); iterator.hasNext();) {
 		    GameObject obj = iterator.next();
 			physicsWorld.destroyBody(obj.getBody());

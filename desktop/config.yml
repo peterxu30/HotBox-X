@@ -1,7 +1,8 @@
 ---
 # don't change scale
-scale: 40.0 
+scale: 40.0
 
+splash: true
 gameMode: permadeath 
 #gameMode doesn't work yet
 rewardValue: 1
@@ -13,6 +14,7 @@ minScore: 0
 playerSpeed: 6f
 playerX: 60f
 playerY: 240f
+gravity: 9.8f
 
 distribution: uniform
 normalMean: 1.0
@@ -30,6 +32,9 @@ objectSpawnX: 800f
 # Scale to convert meters to pixels.
 # Used to convert physics engine calculations into graphics
 # Do not change!
+#
+## splash #
+# Turn splash screen on or off.
 #
 ## gameMode #
 # Switch between 'permadeath' and 'penalty' game modes
@@ -56,6 +61,10 @@ objectSpawnX: 800f
 # Starting y-coordinate of the player in pixels.
 # 0 is the top of the screen.
 # Must be between 60 and 420
+#
+## gravity #
+# Gravity of world. Must have a decimal value (add .0 to integers)
+# gravity * scale = gravitational acceleration in pixels
 #
 ## distribution #
 # The distribution of gaps. (Gaps are spaces between obstacles the player can go through)

@@ -11,7 +11,8 @@ public class Config {
 	public static float scale;
 	public static float playerSpeed; 
 	public static float playerX; 
-	public static float playerY; 
+	public static float playerY;
+	public static float gravity;
 	public static float objectWidth;
 	public static float objectSpeed; 
 	public static float objectSpawnX;
@@ -21,6 +22,7 @@ public class Config {
 	public static int rewardValue;
 	public static String distribution;
 	public static String gameMode;
+	public static boolean splash;
 
 	public static void load() throws FileNotFoundException {
 		File configFile = new File("config.yml");
@@ -32,6 +34,7 @@ public class Config {
 		playerSpeed = ((Double) configMap.get("playerSpeed")).floatValue();
 		playerX = ((Double) configMap.get("playerX")).floatValue();
 		playerY = ((Double) configMap.get("playerY")).floatValue();
+		gravity = ((Double) configMap.get("gravity")).floatValue();
 		objectWidth = ((Double) configMap.get("objectWidth")).floatValue();
 		objectSpeed = ((Double) configMap.get("objectSpeed")).floatValue();
 		objectSpawnX = ((Double) configMap.get("objectSpawnX")).floatValue();
@@ -41,6 +44,7 @@ public class Config {
 		rewardValue = ((Integer) configMap.get("rewardValue"));
 		distribution = ((String) configMap.get("distribution"));
 		gameMode = ((String) configMap.get("gameMode"));
+		splash = (boolean) configMap.get("splash");
 		
 //		obstacleAccelerationBoolean = ((Boolean) configMap.get("obstacleAccelerationBoolean"));
 //		obstacleAccelerationRate = ((Double) configMap.get("obstacleAccelerationRate")).floatValue();

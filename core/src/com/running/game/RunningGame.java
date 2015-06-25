@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -28,8 +29,13 @@ public class RunningGame extends Game {
 		} catch (FileNotFoundException e) {
 			Gdx.app.log("Config Error", "File Missing");
 		}
-		setScreen(new GameScreen());
-//		setScreen(new Splash("img/notime.jpg"));
+		if (Config.splash) {
+			setScreen(new Splash("img/notime.jpg"));
+		} else {
+			setScreen(new GameScreen());
+		}
+//		setScreen(new GameScreen());
+		
 	}
 	
 	@Override

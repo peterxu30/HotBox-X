@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.running.game.gameObjects.GameObject;
 import com.running.game.gameObjects.Player;
 import com.running.game.helpers.AssetLoader;
+import com.running.game.helpers.Config;
 
 public class GameRenderer {
 
@@ -28,9 +29,9 @@ public class GameRenderer {
 	
 	private Box2DDebugRenderer debugRenderer;
 	
-	public GameRenderer(GameWorld world, float width, float height, float scale) {
+	public GameRenderer(GameWorld world, float width, float height) {
 		this.world = world;
-		this.scale = scale;
+		this.scale = Config.scale;
 		camera = new OrthographicCamera();
 		camera.setToOrtho(true, width, height);
 		viewport = new FitViewport(width, height, camera);
@@ -91,8 +92,10 @@ public class GameRenderer {
 	}
 	
 	public void dispose() {
-//		AssetLoader.dispose();
-		batch.dispose();
+		Gdx.app.log("GameRenderer", "Dispose");
+		if (batch != null) {
+			batch.dispose();
+		}
 	}
 	
 }
