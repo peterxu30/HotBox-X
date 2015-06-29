@@ -49,14 +49,19 @@ public class GameRenderer {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
-        batch.begin();
-        batch.draw(AssetLoader.playerTexture, 
-        		(player.getX() - (player.getWidth() / 2)) * scale,
-        		(player.getY() - (player.getHeight() / 2)) * scale);
+        Texture playerTexture = AssetLoader.playerTexture;
+        // Just for fun
+        if (Config.splash) {
+        	playerTexture = AssetLoader.endurance;
+        }
         
-//        batch.draw(AssetLoader.playerTexture, 
-//        		player.getX() * scale - 20f,
-//        		player.getY() * scale - 20f);
+        batch.begin();
+      
+        batch.draw(playerTexture, 
+        		(player.getX() - (player.getWidth() / 2)) * scale,
+        		(player.getY() - (player.getHeight() / 2)) * scale,
+        		Config.playerWidth,
+        		Config.playerHeight);
         
         batch.draw(AssetLoader.obstacleTexture, world.getGroundBody().getPosition().x * scale,
         		world.getGroundBody().getPosition().y * scale, 800f, 40f);

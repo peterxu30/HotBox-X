@@ -2,6 +2,7 @@ package com.running.game.helpers;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Map;
 
 import org.ho.yaml.Yaml;
@@ -9,7 +10,9 @@ import org.ho.yaml.Yaml;
 public class Config {
 	
 	public static float scale;
-	public static float playerSpeed; 
+	public static float playerSpeed;
+	public static float playerWidth;
+	public static float playerHeight;
 	public static float playerX; 
 	public static float playerY;
 	public static float gravity;
@@ -32,6 +35,8 @@ public class Config {
 		scale = ((Double) configMap.get("scale")).floatValue();
 		System.out.println(scale);
 		playerSpeed = ((Double) configMap.get("playerSpeed")).floatValue();
+		playerWidth = ((Double) configMap.get("playerWidth")).floatValue();
+		playerHeight = ((Double) configMap.get("playerHeight")).floatValue();
 		playerX = ((Double) configMap.get("playerX")).floatValue();
 		playerY = ((Double) configMap.get("playerY")).floatValue();
 		gravity = ((Double) configMap.get("gravity")).floatValue();
@@ -45,6 +50,8 @@ public class Config {
 		distribution = ((String) configMap.get("distribution"));
 		gameMode = ((String) configMap.get("gameMode"));
 		splash = (boolean) configMap.get("splash");
+		ArrayList<Integer> arrayTest = (ArrayList<Integer>) configMap.get("test");
+		System.out.println(arrayTest.get(0));
 		
 //		obstacleAccelerationBoolean = ((Boolean) configMap.get("obstacleAccelerationBoolean"));
 //		obstacleAccelerationRate = ((Double) configMap.get("obstacleAccelerationRate")).floatValue();

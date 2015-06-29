@@ -48,7 +48,6 @@ public class GameWorld {
 	private ArrayList<GameObject> wave;
 	
 	private long lastWaveTime;
-//	private long waveTime = 999990000;
 	private long waveTime = Config.waveTime;
 	
 	private int score;
@@ -143,7 +142,7 @@ public class GameWorld {
 		
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.type = BodyType.StaticBody;
-		bodyDef.position.set(0, 440f/scale);
+		bodyDef.position.set(0, 460f/scale);
 		
 		ChainShape groundShape = new ChainShape();
 		groundShape.createChain(new Vector2[] {new Vector2(-25, 0), new Vector2(25, 0)});
@@ -156,7 +155,7 @@ public class GameWorld {
 		groundBody = physicsWorld.createBody(bodyDef);
 		groundBody.createFixture(fixtureDef);
 		
-		bodyDef.position.set(0, 40f/scale);
+		bodyDef.position.set(0, 20f/scale);
 
 		fixtureDef.friction = 1f;
 		fixtureDef.restitution = 0f;

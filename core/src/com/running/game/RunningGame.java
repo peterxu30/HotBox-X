@@ -20,6 +20,7 @@ import com.running.game.screens.Splash;
 
 public class RunningGame extends Game {
 	public static final String TITLE = "Running Game", VERSION = "0.0.0.0.1";
+	private static Music music;
 	
 	@Override
 	public void create() {
@@ -31,6 +32,10 @@ public class RunningGame extends Game {
 		}
 		if (Config.splash) {
 			setScreen(new Splash("img/notime.jpg"));
+			music = Gdx.audio.newMusic(Gdx.files.internal("sound/notime.mp3"));
+			music.play();
+			music.setPosition(23f);
+			music.setLooping(true);
 		} else {
 			setScreen(new GameScreen());
 		}
@@ -43,6 +48,11 @@ public class RunningGame extends Game {
 		Gdx.app.log("RunningGame", "Dispose");
 		super.dispose();
 		AssetLoader.dispose();
+		
+		//for fun
+		if (Config.splash) {
+			music.dispose();
+		}
 	}
 	
 	@Override

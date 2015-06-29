@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.running.game.helpers.AssetLoader;
+import com.running.game.helpers.Config;
 
 public class Player {
 
@@ -29,7 +30,7 @@ public class Player {
 		playerBodyDef.position.set(x, y);
 		
 		PolygonShape shape = new PolygonShape();
-		shape.setAsBox(AssetLoader.playerTexture.getWidth() / (2 * scale), AssetLoader.playerTexture.getHeight() / (2 * scale));
+		shape.setAsBox(Config.playerWidth / (2 * scale), Config.playerHeight / (2 * scale));
 		
 		playerFixtureDef = new FixtureDef();
 		playerFixtureDef.shape = shape; 
@@ -56,7 +57,7 @@ public class Player {
 	 * @return Width as a float.
 	 */
 	public float getWidth() {
-		return 40f / scale;
+		return Config.playerWidth / scale;
 	}
 	
 	/**
@@ -64,7 +65,7 @@ public class Player {
 	 * @return
 	 */
 	public float getHeight() {
-		return 40f / scale;
+		return Config.playerHeight / scale;
 	}
 	
 	public void move() {

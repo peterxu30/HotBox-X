@@ -2,7 +2,7 @@
 # don't change scale
 scale: 40.0
 
-splash: true
+splash: false
 gameMode: permadeath 
 #gameMode doesn't work yet
 rewardValue: 1
@@ -11,19 +11,25 @@ deathPenalty: 1
 minScore: 0
 #minimumScore doesn't work yet
 
-playerSpeed: 6f
+playerSpeed: 7.3f
+playerWidth: 30f
+playerHeight: 30f
 playerX: 60f
 playerY: 240f
-gravity: 9.8f
+gravity: 14f
 
 distribution: uniform
 normalMean: 1.0
 normalSD: 1.0
-waveTime: 1200.0
+waveTime: 1400.0
 
 objectWidth: 20f
 objectSpeed: 6f
 objectSpawnX: 800f
+
+test:
+    - 100
+    - 200
 
 
 ### Config Notes ###

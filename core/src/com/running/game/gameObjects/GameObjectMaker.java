@@ -40,7 +40,7 @@ public class GameObjectMaker {
 			distribution = new NormalDistribution(Config.normalMean, Config.normalSD);
 			break;
 		case "uniform":
-			distribution = new UniformIntegerDistribution(0, 8);
+			distribution = new UniformIntegerDistribution(0, 9);
 			break;
 		}
 	}
@@ -51,7 +51,7 @@ public class GameObjectMaker {
 		boolean rewarded = false;
 		float rewardY = 0;
 		int numberGaps = (randomizer() % 3) + 1;
-		boolean[] zones = new boolean[9];
+		boolean[] zones = new boolean[10];
 		while (numberGaps > 0) {
 			int gap = randomizer();
 			if (zones[gap] == false) {
@@ -62,7 +62,7 @@ public class GameObjectMaker {
 					zones[gap + 1] = true;
 				}
 				if (!rewarded) {
-					rewardY = (gap + 2) * zoneHeight;
+					rewardY = (gap + 1) * zoneHeight + 20f;
 					rewarded = true;
 				}
 				zones[gap] = true;
@@ -81,8 +81,8 @@ public class GameObjectMaker {
 		//fill with objects, if gap, check for reward, if no gap, fill with obstacle
 		int numberObstacles = 0;
 		for (int i = 0; i < zones.length; i++) {
-			int zone = i + 2;
-			float y = zone * zoneHeight;
+			int zone = i + 1/*+ 2*/;
+			float y = zone * zoneHeight + 20f;
 			if (zones[i] == false) {
 				Obstacle obs = new Obstacle(world, spawnX/scale, y/scale, width/scale, 80f/scale);
 				obs.setSpeed(ms);
@@ -117,7 +117,7 @@ public class GameObjectMaker {
 			return ((UniformIntegerDistribution) distribution).sample();
 		}
 		Random randomizer = new Random();
-		return randomizer.nextInt(6) + 2;
+		return randomizer.nextInt(10);
 	}
 	
 }
