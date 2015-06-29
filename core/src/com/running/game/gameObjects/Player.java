@@ -21,6 +21,8 @@ public class Player {
 	
 	private float upYSpeed;
 	
+	private boolean isMoving;
+	
 	public Player(World world, float x, float y, float upYSpeed, float scale) {
 		this.upYSpeed = upYSpeed;
 		this.scale = scale;
@@ -66,6 +68,14 @@ public class Player {
 	 */
 	public float getHeight() {
 		return Config.playerHeight / scale;
+	}
+	
+	public void setMoving(boolean move) {
+		isMoving = move;
+	}
+	
+	public boolean isMoving() {
+		return isMoving;
 	}
 	
 	public void move() {

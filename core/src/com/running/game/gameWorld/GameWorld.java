@@ -142,7 +142,7 @@ public class GameWorld {
 		
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.type = BodyType.StaticBody;
-		bodyDef.position.set(0, 460f/scale);
+		bodyDef.position.set(0, 438f/scale);
 		
 		ChainShape groundShape = new ChainShape();
 		groundShape.createChain(new Vector2[] {new Vector2(-25, 0), new Vector2(25, 0)});
@@ -155,7 +155,7 @@ public class GameWorld {
 		groundBody = physicsWorld.createBody(bodyDef);
 		groundBody.createFixture(fixtureDef);
 		
-		bodyDef.position.set(0, 20f/scale);
+		bodyDef.position.set(0, 42f/scale);
 
 		fixtureDef.friction = 1f;
 		fixtureDef.restitution = 0f;
@@ -175,6 +175,10 @@ public class GameWorld {
 		physicsWorld.step(delta, 6, 2);
 		newWave();
 		removeObjects();
+		//test
+//		if (player.isMoving()) {
+//			player.move();
+//		}
 	}
 	
 	/**

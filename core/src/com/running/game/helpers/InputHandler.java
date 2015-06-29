@@ -24,10 +24,11 @@ public class InputHandler implements InputProcessor {
 		switch (keycode) {
 		case (Keys.SPACE):
 			player.move();
+			player.setMoving(true); //test
 			break;
-		case (Keys.Z):
-			((Game) Gdx.app.getApplicationListener()).setScreen(new GameScreen());
-			break;
+//		case (Keys.Z):
+//			((Game) Gdx.app.getApplicationListener()).setScreen(new GameScreen());
+//			break;
 		}
 		return false;
 	}
@@ -35,6 +36,11 @@ public class InputHandler implements InputProcessor {
 	@Override
 	public boolean keyUp(int keycode) {
 		// TODO Auto-generated method stub
+		switch (keycode) {
+		case (Keys.SPACE):
+			player.setMoving(false);//test
+			break;
+		}
 		return false;
 	}
 

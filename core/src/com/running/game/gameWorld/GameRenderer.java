@@ -64,10 +64,10 @@ public class GameRenderer {
         		Config.playerHeight);
         
         batch.draw(AssetLoader.obstacleTexture, world.getGroundBody().getPosition().x * scale,
-        		world.getGroundBody().getPosition().y * scale, 800f, 40f);
+        		world.getGroundBody().getPosition().y * scale, 800f, 42f);
         
         batch.draw(AssetLoader.obstacleTexture, world.getSkyBody().getPosition().x * scale,
-        		world.getSkyBody().getPosition().y * scale - 40f, 800f, 40f);
+        		world.getSkyBody().getPosition().y * scale - 42f, 800f, 42f);
 
         renderObjects();
         

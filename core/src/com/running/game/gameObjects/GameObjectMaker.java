@@ -40,7 +40,7 @@ public class GameObjectMaker {
 			distribution = new NormalDistribution(Config.normalMean, Config.normalSD);
 			break;
 		case "uniform":
-			distribution = new UniformIntegerDistribution(0, 9);
+			distribution = new UniformIntegerDistribution(0, 7);
 			break;
 		}
 	}
@@ -50,8 +50,9 @@ public class GameObjectMaker {
 		//must have 2 zone wide gap for player
 		boolean rewarded = false;
 		float rewardY = 0;
-		int numberGaps = (randomizer() % 3) + 1;
-		boolean[] zones = new boolean[10];
+//		int numberGaps = (randomizer() % 3) + 1;
+		int numberGaps = (randomizer() % 2) + 1;
+		boolean[] zones = new boolean[9];
 		while (numberGaps > 0) {
 			int gap = randomizer();
 			if (zones[gap] == false) {
@@ -62,7 +63,7 @@ public class GameObjectMaker {
 					zones[gap + 1] = true;
 				}
 				if (!rewarded) {
-					rewardY = (gap + 1) * zoneHeight + 20f;
+					rewardY = (gap + 1) * 44 + 42f;
 					rewarded = true;
 				}
 				zones[gap] = true;
@@ -82,9 +83,9 @@ public class GameObjectMaker {
 		int numberObstacles = 0;
 		for (int i = 0; i < zones.length; i++) {
 			int zone = i + 1/*+ 2*/;
-			float y = zone * zoneHeight + 20f;
+			float y = zone * 44f + 42f;
 			if (zones[i] == false) {
-				Obstacle obs = new Obstacle(world, spawnX/scale, y/scale, width/scale, 80f/scale);
+				Obstacle obs = new Obstacle(world, spawnX/scale, y/scale, width/scale, 88f/scale);
 				obs.setSpeed(ms);
 				wave.add(obs);
 				numberObstacles += 1;
