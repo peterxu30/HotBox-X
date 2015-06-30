@@ -1,7 +1,4 @@
 ---
-# don't change scale
-scale: 40.0
-
 splash: false
 gameMode: permadeath 
 #gameMode doesn't work yet
@@ -25,7 +22,7 @@ normalMean: 1.0
 normalSD: 1.0
 waveTime: 1410.0
 
-objectWidth: 20f
+objectWidth: 18f
 objectSpeed: 6f
 objectSpawnX: 800f
 
