@@ -49,13 +49,13 @@ public class GameWorld {
 	private ArrayList<GameObject> wave;
 	
 	private long lastWaveTime;
-	private long waveTime = Config.waveTime;
+	private long waveTime;
 	
 	private int score;
 	
-	public GameWorld(float gravityY) {
-		gameOver = false;
-		scale = Config.SCALE;
+	public GameWorld(float gravityY, float scale, long waveTime) {
+		this.scale = scale;
+		this.waveTime = waveTime;
 		physicsWorld = new World(new Vector2(0, gravityY), true);
 		setContactListener();
 		player = new Player(physicsWorld, Config.playerWidth/scale, Config.playerHeight/scale);

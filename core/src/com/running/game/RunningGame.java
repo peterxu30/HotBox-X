@@ -4,7 +4,6 @@ import java.io.FileNotFoundException;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.running.game.helpers.AssetLoader;
 import com.running.game.helpers.Config;
 import com.running.game.screens.GameScreen;
@@ -14,7 +13,6 @@ public class RunningGame extends Game {
 	
 	public static final String TITLE = "Running Game";
 	public static final String VERSION = "6.29.15";
-	private Screen currentScreen;
 	
 	@Override
 	public void create() {
@@ -24,14 +22,12 @@ public class RunningGame extends Game {
 		} catch (FileNotFoundException e) {
 			Gdx.app.log("Config Error", "File Missing");
 		}
-		currentScreen = new GameScreen();
-		setScreen(currentScreen);
+		setScreen(new GameScreen());
 	}
 	
 	@Override
 	public void dispose() {
 		Gdx.app.log("RunningGame", "Dispose");
-//		currentScreen.dispose();
 		super.dispose();
 		AssetLoader.dispose();
 	}

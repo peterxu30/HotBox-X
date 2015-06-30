@@ -3,7 +3,6 @@ package com.running.game.screens;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Music;
 import com.running.game.gameworld.GameRenderer;
 import com.running.game.gameworld.GameWorld;
 import com.running.game.helpers.Config;
@@ -15,10 +14,10 @@ public class GameScreen implements Screen {
 	
 	private GameWorld world;
 	private GameRenderer renderer;
-	private final float timeStep = 1/60f;
+	private float timeStep = 1/60f;
 	
 	public GameScreen() {
-		world = new GameWorld(Config.gravity);
+		world = new GameWorld(Config.gravity, Config.SCALE, Config.waveTime);
 		renderer = new GameRenderer(world, SCREEN_WIDTH, SCREEN_HEIGHT, Config.SCALE);
 		Gdx.input.setInputProcessor(new InputHandler(world.getPlayer()));
 	}
@@ -40,7 +39,6 @@ public class GameScreen implements Screen {
 	
 	private void checkGameStatus() {
 		if (world.isGameOver()) {
-			dispose();
 			((Game) Gdx.app.getApplicationListener()).setScreen(new GameScreen());
 		}
 	}
@@ -54,7 +52,7 @@ public class GameScreen implements Screen {
 	@Override
 	public void pause() {
 		// TODO Auto-generated method stub
-
+		timeStep = 0f;
 	}
 
 	@Override
@@ -66,12 +64,14 @@ public class GameScreen implements Screen {
 	@Override
 	public void hide() {
 		// TODO Auto-generated method stub
-
+		Gdx.app.log("GameScreen", "Hide");
+		dispose();
 	}
 
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
+		pause();
 		Gdx.app.log("GameScreen", "Dispose");
 		renderer.dispose();
 		world.dispose();

@@ -114,6 +114,7 @@ public class GameRenderer {
 		Gdx.app.log("GameRenderer", "Dispose");
 		if (batch != null) {
 			batch.dispose();
+			batch = null;
 		}
 	}
 	
