@@ -1,5 +1,0 @@
---- !Config
-playerSpeed: 10f
-obstacleDistribution: uniform
-obstacleWidth: 60f
-obstacleSpeed: 10f
