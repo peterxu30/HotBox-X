@@ -1,4 +1,4 @@
-package com.running.game.gameWorld;
+package com.running.game.gameworld;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -24,11 +24,11 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.utils.TimeUtils;
-import com.running.game.gameObjects.GameObject;
-import com.running.game.gameObjects.GameObjectMaker;
-import com.running.game.gameObjects.Obstacle;
-import com.running.game.gameObjects.Player;
-import com.running.game.gameObjects.Reward;
+import com.running.game.gameobjects.GameObject;
+import com.running.game.gameobjects.GameObjectMaker;
+import com.running.game.gameobjects.Obstacle;
+import com.running.game.gameobjects.Player;
+import com.running.game.gameobjects.Reward;
 import com.running.game.helpers.AssetLoader;
 import com.running.game.helpers.Config;
 import com.running.game.screens.GameScreen;
@@ -43,6 +43,7 @@ public class GameWorld {
 	private Player player;
 	private Body groundBody;
 	private Body skyBody;
+	private final float BOUNDARY_WIDTH = 42f;
 	private GameObjectMaker objectMaker;
 	
 	private ArrayList<GameObject> wave;
@@ -54,15 +55,23 @@ public class GameWorld {
 	
 	public GameWorld(float gravityY) {
 		gameOver = false;
-		scale = Config.scale;
+		scale = Config.SCALE;
 		physicsWorld = new World(new Vector2(0, gravityY), true);
 		setContactListener();
-		player = new Player(physicsWorld, Config.playerX/scale, Config.playerY/scale, Config.playerSpeed, scale);
+		player = new Player(physicsWorld, Config.playerWidth/scale, Config.playerHeight/scale);
+		player.setPosition(Config.playerX/scale, Config.playerY/scale);
+		player.setSpeed(Config.playerSpeed);
 		addBoundaries();
 		wave = new ArrayList<GameObject>();
 		
-		//test
-		objectMaker = new GameObjectMaker(physicsWorld);
+		objectMaker = new GameObjectMaker()
+			.setWorld(physicsWorld)
+			.setScale(scale)
+			.setBoundary(BOUNDARY_WIDTH)
+			.setDistribution(Config.distribution, Config.normalMean, Config.normalSD)
+			.setSpawn(Config.objectSpawnX)
+			.setObjectWidth(Config.objectWidth)
+			.setSpeed(Config.objectSpeed);
 	}
 	
 	private void setContactListener() {
@@ -235,5 +244,9 @@ public class GameWorld {
 	
 	public int getScore() {
 		return score;
+	}
+	
+	public float getBoundaryWidth() {
+		return BOUNDARY_WIDTH;
 	}
 }

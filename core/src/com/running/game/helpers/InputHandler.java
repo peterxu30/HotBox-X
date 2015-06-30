@@ -6,7 +6,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
-import com.running.game.gameObjects.Player;
+import com.running.game.gameobjects.Player;
 import com.running.game.screens.GameScreen;
 
 public class InputHandler implements InputProcessor {
@@ -22,13 +22,10 @@ public class InputHandler implements InputProcessor {
 		// TODO Auto-generated method stub
 		Gdx.app.log("InputHandler", "space down");
 		switch (keycode) {
-		case (Keys.SPACE):
-			player.move();
-			player.setMoving(true); //test
-			break;
-//		case (Keys.Z):
-//			((Game) Gdx.app.getApplicationListener()).setScreen(new GameScreen());
-//			break;
+			case (Keys.SPACE):
+				player.move();
+	//			player.setMoving(true); //test
+				break;
 		}
 		return false;
 	}
@@ -38,7 +35,8 @@ public class InputHandler implements InputProcessor {
 		// TODO Auto-generated method stub
 		switch (keycode) {
 		case (Keys.SPACE):
-			player.setMoving(false);//test
+//			player.setMoving(false);//test
+//			player.stopMove();
 			break;
 		}
 		return false;
@@ -79,5 +77,4 @@ public class InputHandler implements InputProcessor {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
 }

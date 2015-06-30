@@ -1,14 +1,7 @@
 package com.running.game.helpers;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Map;
-
-import org.ho.yaml.Yaml;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class AssetLoader {
 	
@@ -30,5 +23,4 @@ public class AssetLoader {
 		rewardTexture.dispose();
 		endurance.dispose();
 	}
-	
 }

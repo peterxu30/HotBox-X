@@ -1,12 +1,11 @@
-package com.running.game.gameObjects;
+package com.running.game.gameobjects;
 
 import com.badlogic.gdx.physics.box2d.World;
 
 public class Reward extends GameObject {
-
-	public Reward(World world, float x, float y, float width, float height) {
-		super(world, x, y, width, height, true);
+	
+	public Reward(World world, float width, float height) {
+		super(world, width, height, true, true);
 		setItemID(2);
 	}
-
 }

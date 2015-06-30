@@ -4,12 +4,14 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
-import com.running.game.gameWorld.GameRenderer;
-import com.running.game.gameWorld.GameWorld;
+import com.running.game.gameworld.GameRenderer;
+import com.running.game.gameworld.GameWorld;
 import com.running.game.helpers.Config;
 import com.running.game.helpers.InputHandler;
 
 public class GameScreen implements Screen {
+	private final float SCREEN_WIDTH = 800f;
+	private final float SCREEN_HEIGHT = 480f;
 	
 	private GameWorld world;
 	private GameRenderer renderer;
@@ -17,7 +19,7 @@ public class GameScreen implements Screen {
 	
 	public GameScreen() {
 		world = new GameWorld(Config.gravity);
-		renderer = new GameRenderer(world, 800f, 480f);
+		renderer = new GameRenderer(world, SCREEN_WIDTH, SCREEN_HEIGHT, Config.SCALE);
 		Gdx.input.setInputProcessor(new InputHandler(world.getPlayer()));
 	}
 	

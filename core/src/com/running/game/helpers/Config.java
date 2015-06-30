@@ -9,7 +9,7 @@ import org.ho.yaml.Yaml;
 
 public class Config {
 	
-	public static float scale;
+	public final static float SCALE = 40;
 	public static float playerSpeed;
 	public static float playerWidth;
 	public static float playerHeight;
@@ -30,10 +30,8 @@ public class Config {
 	public static void load() throws FileNotFoundException {
 		File configFile = new File("config.yml");
 		Object temp = Yaml.load(configFile);
-		Map configMap = (Map) temp;
+		Map<?, ?> configMap = (Map<?, ?>) temp;
 
-		scale = ((Double) configMap.get("scale")).floatValue();
-		System.out.println(scale);
 		playerSpeed = ((Double) configMap.get("playerSpeed")).floatValue();
 		playerWidth = ((Double) configMap.get("playerWidth")).floatValue();
 		playerHeight = ((Double) configMap.get("playerHeight")).floatValue();
@@ -50,19 +48,8 @@ public class Config {
 		distribution = ((String) configMap.get("distribution"));
 		gameMode = ((String) configMap.get("gameMode"));
 		splash = (boolean) configMap.get("splash");
-		ArrayList<Integer> arrayTest = (ArrayList<Integer>) configMap.get("test");
-		System.out.println(arrayTest.get(0));
-		
-//		obstacleAccelerationBoolean = ((Boolean) configMap.get("obstacleAccelerationBoolean"));
-//		obstacleAccelerationRate = ((Double) configMap.get("obstacleAccelerationRate")).floatValue();
-//		minObstacleWidth = ((Double) configMap.get("minimumObstacleWidth")).floatValue();
-//		zonedSpeed = (screenWidth - (2 * leftBoundary)) / 3;
-//		leftBoundary = ((Double) configMap.get("boundaryWidth")).floatValue();
-//		rightBoundary = screenWidth - leftBoundary;
-//		playerWidth = ((Double) configMap.get("playerWidth")).floatValue();
-//		playerHeight = ((Double) configMap.get("playerHeight")).floatValue();
-//		zoned = ((boolean) configMap.get("zoned"));
-//		scoreTime = ((Double) configMap.get("scoreTime")).longValue();
+		ArrayList<?> arrayTest = (ArrayList<?>) configMap.get("test"); 
+		int x = (int) arrayTest.get(0);
+		System.out.println(x);
 	}
-	
 }

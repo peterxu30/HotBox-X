@@ -1,4 +1,4 @@
-package com.running.game.gameWorld;
+package com.running.game.gameworld;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -6,32 +6,35 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.math.Matrix4;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.running.game.gameObjects.GameObject;
-import com.running.game.gameObjects.Player;
+import com.running.game.gameobjects.GameObject;
+import com.running.game.gameobjects.Player;
 import com.running.game.helpers.AssetLoader;
 import com.running.game.helpers.Config;
 
 public class GameRenderer {
-
-	private GameWorld world;
+	
+	private GameWorld gameWorld;
 	private OrthographicCamera camera;
 	private Viewport viewport;
 	private ShapeRenderer shapeRenderer;
 	private SpriteBatch batch;
 	private float scale;
-	
+	private float width;
+	private float height;
 	private Player player;
+	private Texture playerTexture;
 	
-	private Box2DDebugRenderer debugRenderer;
+	private float boundaryX;
+	private float groundY;
+	private float skyY;
 	
-	public GameRenderer(GameWorld world, float width, float height) {
-		this.world = world;
-		this.scale = Config.scale;
+	public GameRenderer(GameWorld gameWorld, float width, float height, float scale) {
+		this.gameWorld = gameWorld;
+		this.scale = scale;
+		this.width = width;
+		this.height = height;
 		camera = new OrthographicCamera();
 		camera.setToOrtho(true, width, height);
 		viewport = new FitViewport(width, height, camera);
@@ -40,7 +43,14 @@ public class GameRenderer {
 		shapeRenderer.setProjectionMatrix(camera.combined);
 		batch = new SpriteBatch();
 		batch.setProjectionMatrix(camera.combined);
-		player = world.getPlayer();
+		player = gameWorld.getPlayer();
+		calculations();
+	}
+	
+	private void calculations() {
+		boundaryX = gameWorld.getGroundBody().getPosition().x * scale;
+		groundY = gameWorld.getGroundBody().getPosition().y * scale;
+		skyY = gameWorld.getSkyBody().getPosition().y * scale - 42f;
 	}
 	
 	public void render() {
@@ -49,43 +59,46 @@ public class GameRenderer {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
-        Texture playerTexture = AssetLoader.playerTexture;
+        playerTexture = AssetLoader.playerTexture;
         // Just for fun
         if (Config.splash) {
         	playerTexture = AssetLoader.endurance;
         }
         
         batch.begin();
-      
-        batch.draw(playerTexture, 
-        		(player.getX() - (player.getWidth() / 2)) * scale,
-        		(player.getY() - (player.getHeight() / 2)) * scale,
-        		Config.playerWidth,
-        		Config.playerHeight);
         
-        batch.draw(AssetLoader.obstacleTexture, world.getGroundBody().getPosition().x * scale,
-        		world.getGroundBody().getPosition().y * scale, 800f, 42f);
+        drawPlayer();
+        drawBoundaries();
+        drawObjects();
         
-        batch.draw(AssetLoader.obstacleTexture, world.getSkyBody().getPosition().x * scale,
-        		world.getSkyBody().getPosition().y * scale - 42f, 800f, 42f);
-
-        renderObjects();
-        
-        System.out.println("Score: " + world.getScore());
-        
-//        debugRenderer.render(world.getWorld(), camera.combined);
+        System.out.println("Score: " + gameWorld.getScore());
        
         batch.end();
 	}
 	
-	private void renderObjects() {
-		for (GameObject obj : world.getWave()) {
+	private void drawPlayer() {
+		batch.draw(playerTexture, 
+        		(player.getX() - (player.getWidth() / 2)) * scale,
+        		(player.getY() - (player.getHeight() / 2)) * scale,
+        		Config.playerWidth,
+        		Config.playerHeight);
+	}
+	
+	private void drawBoundaries() {
+		batch.draw(AssetLoader.obstacleTexture, boundaryX, groundY, width, gameWorld.getBoundaryWidth());
+        batch.draw(AssetLoader.obstacleTexture, boundaryX, skyY, width, gameWorld.getBoundaryWidth());
+	}
+	
+	private void drawObjects() {
+		for (GameObject obj : gameWorld.getWave()) {
         	float objX = (obj.getBody().getPosition().x - (obj.getWidth() / 2)) * scale;
         	float objY = (obj.getBody().getPosition().y - (obj.getHeight() / 2)) * scale;
         	float objWidth = obj.getWidth() * scale;
         	float objHeight = obj.getHeight() * scale;
-        	Texture objTexture = AssetLoader.obstacleTexture;
-        	if (obj.getItemID() == 2) {
+        	Texture objTexture;
+        	if (obj.getItemID() == 1) {
+        		objTexture = AssetLoader.obstacleTexture;
+        	} else {
         		objTexture = AssetLoader.rewardTexture;
         	}
         	batch.draw(objTexture, objX, objY, objWidth, objHeight);
@@ -96,6 +109,7 @@ public class GameRenderer {
 		viewport.update(width, height);
 	}
 	
+	//NOT FINISHED
 	public void dispose() {
 		Gdx.app.log("GameRenderer", "Dispose");
 		if (batch != null) {
