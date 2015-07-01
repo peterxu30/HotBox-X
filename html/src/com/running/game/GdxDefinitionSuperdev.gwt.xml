@@ -6,7 +6,7 @@
 	<inherits name='com.badlogic.gdx.controllers.controllers-gwt' />
 
     <inherits name='com.running.game.GdxDefinition' />
-    
+  
     <collapse-all-properties />
     
 	<add-linker name="xsiframe"/>	
