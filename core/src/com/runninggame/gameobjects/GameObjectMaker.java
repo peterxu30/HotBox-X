@@ -57,15 +57,15 @@ public class GameObjectMaker {
 	}
 	
 	public GameObjectMaker setDistribution(String dist, double normalMean, double normalSD) {
-		distType = dist;
-		switch (dist) {
-			case "normal":
-				distribution = new NormalDistribution(normalMean, normalSD);
-				break;
-			case "uniform":
-				distribution = new UniformIntegerDistribution(0, NUMBER_OF_ZONES - 2);
-				break;
-		}
+//		distType = dist;
+//		switch (dist) {
+//			case "normal":
+//				distribution = new NormalDistribution(normalMean, normalSD);
+//				break;
+//			case "uniform":
+//				distribution = new UniformIntegerDistribution(0, NUMBER_OF_ZONES - 2);
+//				break;
+//		}
 		return this;
 	}
 	
@@ -125,14 +125,14 @@ public class GameObjectMaker {
 	}
 	
 	public int randomize() {
-		switch (distType) {
-		case "normal":
-			return Math.abs((int) (((NormalDistribution) distribution).sample()) % NUMBER_OF_ZONES);
-		case "uniform":
-			return ((UniformIntegerDistribution) distribution).sample();
-		}
+//		switch (distType) {
+//		case "normal":
+//			return Math.abs((int) (((NormalDistribution) distribution).sample()) % NUMBER_OF_ZONES);
+//		case "uniform":
+//			return ((UniformIntegerDistribution) distribution).sample();
+//		}
 		Random randomizer = new Random();
-		return randomizer.nextInt(NUMBER_OF_ZONES + 1);
+		return randomizer.nextInt(NUMBER_OF_ZONES - 1);
 	}
 }
 
