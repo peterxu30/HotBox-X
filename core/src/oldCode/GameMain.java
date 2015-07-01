@@ -33,7 +33,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.utils.TimeUtils;
-import com.running.game.config.Config;
+import com.runninggame.config.Config;
 
 /**
  * GameMain is the screen where gameplay takes place.
