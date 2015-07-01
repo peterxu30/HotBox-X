@@ -1,7 +1,5 @@
 package com.runninggame.helpers;
 
-import oldCode.Play;
-
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;

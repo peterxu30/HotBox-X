@@ -1,6 +1,5 @@
 package com.runninggame.screens;
 
-import oldCode.Play;
 import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
