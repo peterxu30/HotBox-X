@@ -3,8 +3,8 @@ package com.runninggame.gameobjects;
 import java.util.ArrayList;
 import java.util.Random;
 
-import org.apache.commons.math3.distribution.NormalDistribution;
-import org.apache.commons.math3.distribution.UniformIntegerDistribution;
+//import org.apache.commons.math3.distribution.NormalDistribution;
+//import org.apache.commons.math3.distribution.UniformIntegerDistribution;
 
 import com.badlogic.gdx.physics.box2d.World;
 
@@ -78,7 +78,7 @@ public class GameObjectMaker {
 		boolean rewarded = false;
 		float rewardY = boundary + zoneWidth;
 		int numberGaps =  (randomize() % NUMBER_OF_GAPS) + 1;
-		boolean[] zones = new boolean[NUMBER_OF_ZONES];
+		boolean[] zones = new boolean[NUMBER_OF_ZONES + 1];
 		while (numberGaps > 0) {
 			int gap = randomize();
 			if (zones[gap] == false) {
@@ -96,6 +96,7 @@ public class GameObjectMaker {
 				numberGaps -= 1;
 			}
 		}
+		zones[NUMBER_OF_ZONES] = true;
 		return createObjects(zones, rewarded, rewardY);
 	}
 	
@@ -104,23 +105,47 @@ public class GameObjectMaker {
 		if (rewarded) {
 			wave = createReward(wave, rewardY);
 		}
+		int firstObs = 0;
+		int lastObs = 0;
+		boolean unbroken = false;
+		boolean obs = false;
 		for (int i = 0; i < zones.length; i++) {
-			float y = (i + 1) * zoneWidth + boundary;
 			if (zones[i] == false) {
-				Obstacle obs = (Obstacle) new Obstacle(world, width/scale, (2 * zoneWidth)/scale)
-					.setSpeed(speed)
-					.setPosition(spawnX/scale, y/scale);
-				wave.add(obs);
+				if (unbroken) {
+					lastObs = i;
+				} else {
+					firstObs = i;
+					lastObs = i;
+					unbroken = true;
+				}
+				obs = true;
+			} else {
+				if (obs) {
+					float obsHeight = (lastObs - firstObs + 2) * zoneWidth;
+					float y = ((zoneWidth * (firstObs + 1) + boundary) 
+								+ (zoneWidth * (lastObs + 1) + boundary)) / 2f;
+					createObstacle(wave, obsHeight, y);
+				}
+				unbroken = false;
+				obs = false;
 			}
 		}
 		return wave;
 	}
 	
-	private ArrayList<GameObject> createReward(ArrayList<GameObject> wave, float rewardY) {
+	private ArrayList<GameObject> createReward(ArrayList<GameObject> wave, float y) {
 		Reward reward = (Reward) new Reward(world, REWARD_LENGTH / scale, REWARD_LENGTH / scale)
 			.setSpeed(speed)
-			.setPosition(spawnX/scale, rewardY/scale);
+			.setPosition(spawnX/scale, y/scale);
 		wave.add(reward);
+		return wave;
+	}
+	
+	private ArrayList<GameObject> createObstacle(ArrayList<GameObject> wave, float height, float y) {
+		Obstacle obstacle = (Obstacle) new Obstacle(world, width/scale, height/scale)
+			.setSpeed(speed)
+			.setPosition(spawnX/scale, y/scale);
+		wave.add(obstacle);
 		return wave;
 	}
 	
