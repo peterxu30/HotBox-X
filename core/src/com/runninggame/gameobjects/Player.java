@@ -5,7 +5,6 @@ import com.badlogic.gdx.physics.box2d.World;
 public class Player extends GameObject {
 
 	private float upYSpeed;
-	private boolean isMoving;
 	
 	public Player(World world, float width, float height) {
 		super(world, width, height, false, false);
@@ -18,14 +17,6 @@ public class Player extends GameObject {
 	public Player setSpeed(float speed) {
 		upYSpeed = speed;
 		return this;
-	}
-	
-	public void setMoving(boolean move) {
-		isMoving = move;
-	}
-	
-	public boolean isMoving() {
-		return isMoving;
 	}
 	
 	public void move() {

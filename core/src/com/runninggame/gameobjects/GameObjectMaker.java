@@ -6,7 +6,12 @@ import java.util.Random;
 //import org.apache.commons.math3.distribution.NormalDistribution;
 //import org.apache.commons.math3.distribution.UniformIntegerDistribution;
 
+
+
+
 import com.badlogic.gdx.physics.box2d.World;
+import com.runninggame.distributions.NormalDistribution;
+import com.runninggame.distributions.UniformIntegerDistribution;
 
 public class GameObjectMaker {
 	
@@ -57,15 +62,15 @@ public class GameObjectMaker {
 	}
 	
 	public GameObjectMaker setDistribution(String dist, double normalMean, double normalSD) {
-//		distType = dist;
-//		switch (dist) {
-//			case "normal":
-//				distribution = new NormalDistribution(normalMean, normalSD);
-//				break;
-//			case "uniform":
-//				distribution = new UniformIntegerDistribution(0, NUMBER_OF_ZONES - 2);
-//				break;
-//		}
+		distType = dist;
+		switch (dist) {
+			case "normal":
+				distribution = new NormalDistribution(normalMean, normalSD);
+				break;
+			case "uniform":
+				distribution = new UniformIntegerDistribution(0, NUMBER_OF_ZONES - 1);
+				break;
+		}
 		return this;
 	}
 	
@@ -150,12 +155,18 @@ public class GameObjectMaker {
 	}
 	
 	public int randomize() {
-//		switch (distType) {
-//		case "normal":
-//			return Math.abs((int) (((NormalDistribution) distribution).sample()) % NUMBER_OF_ZONES);
-//		case "uniform":
-//			return ((UniformIntegerDistribution) distribution).sample();
-//		}
+		switch (distType) {
+		case "normal":
+			int random = (int) ((NormalDistribution) distribution).sample();
+			if (random < 0) {
+				random = 0;
+			} else if (random > NUMBER_OF_ZONES - 1) {
+				random = NUMBER_OF_ZONES - 1;
+			}
+			return random;
+		case "uniform":
+			return ((UniformIntegerDistribution) distribution).sample();
+		}
 		Random randomizer = new Random();
 		return randomizer.nextInt(NUMBER_OF_ZONES - 1);
 	}

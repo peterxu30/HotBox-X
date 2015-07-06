@@ -71,7 +71,7 @@ public abstract class GameObject {
 		return body.getPosition().y;
 	}
 	
-	/* 0 - player, 1 - obstacle, 2 - reward */
+	/* 0 - player, 1 - obstacle, 2 - reward, 3 - NewWaveDetector */
 	public void setItemID(int id) {
 		((GameObjectData) body.getUserData()).setID(id);
 	}
