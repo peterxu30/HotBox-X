@@ -22,7 +22,6 @@ public class InputHandler implements InputProcessor {
 		switch (keycode) {
 			case (Keys.SPACE):
 				player.move();
-	//			player.setMoving(true); //test
 				break;
 		}
 		return false;
@@ -31,12 +30,6 @@ public class InputHandler implements InputProcessor {
 	@Override
 	public boolean keyUp(int keycode) {
 		// TODO Auto-generated method stub
-		switch (keycode) {
-		case (Keys.SPACE):
-//			player.setMoving(false);//test
-//			player.stopMove();
-			break;
-		}
 		return false;
 	}
 

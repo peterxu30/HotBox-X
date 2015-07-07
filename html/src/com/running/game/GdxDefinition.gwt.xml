@@ -9,6 +9,7 @@
 	<!--<inherits name='com.runninggame.RunningGame' />-->
 	<inherits name='RunningGame' />
 	
+	<inherits name='distributions' />
 	<inherits name='gameobjects' />
 	<inherits name='gameworld' />
 	<inherits name='helpers' />

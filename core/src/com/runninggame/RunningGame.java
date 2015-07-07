@@ -7,6 +7,7 @@ import com.badlogic.gdx.Gdx;
 import com.runninggame.helpers.AssetLoader;
 import com.runninggame.helpers.Config;
 import com.runninggame.screens.GameScreen;
+import com.runninggame.screens.InstructionsScreen;
 import com.runninggame.screens.Splash;
 
 public class RunningGame extends Game {
@@ -22,7 +23,8 @@ public class RunningGame extends Game {
 		} catch (FileNotFoundException e) {
 			Gdx.app.log("Config Error", "File Missing");
 		}
-		setScreen(new GameScreen());
+//		setScreen(new GameScreen());
+		setScreen(new InstructionsScreen(this));
 	}
 	
 	@Override

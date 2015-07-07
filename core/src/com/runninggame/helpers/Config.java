@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Map;
 
-import org.ho.yaml.Yaml;
+//import org.ho.yaml.Yaml;
 
 public class Config {
 	
@@ -38,9 +38,9 @@ public class Config {
 	public static float objectWidth = 18f;
 	public static float objectSpeed = 6f; 
 	public static float objectSpawnX = 800f;
-	public static float normalMean;
-	public static float normalSD;
-	public static long waveTime = (long) 1410.0;
+	public static float normalMean = 1;
+	public static float normalSD = 1;
+	public static float waveTime = 480f;
 	public static int rewardValue = 1;
 	public static int penaltyValue = 1;
 	public static int minScore = 0;

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -17,6 +18,7 @@ public class GameRenderer {
 	private OrthographicCamera camera;
 	private Viewport viewport;
 	private SpriteBatch batch;
+	private BitmapFont font;
 	private float scale;
 	private float width;
 	private float height;
@@ -31,6 +33,8 @@ public class GameRenderer {
 		this.width = width;
 		this.height = height;
 		
+		font = new BitmapFont(true);
+		
 		camera = new OrthographicCamera();
 		camera.setToOrtho(true, width, height);
 		viewport = new FitViewport(width, height, camera);
@@ -38,6 +42,7 @@ public class GameRenderer {
 		batch = new SpriteBatch();
 		batch.setProjectionMatrix(camera.combined);
 		player = gameWorld.getPlayer();
+		
 		calculations();
 	}
 	
@@ -55,7 +60,7 @@ public class GameRenderer {
         drawPlayer();
         drawBoundaries();
         drawObjects();
-        System.out.println("Score: " + gameWorld.getScore()); //draw it later
+        font.draw(batch, "Score: " + Integer.toString(gameWorld.getScore()), 100f, 50f);
         batch.end();
 	}
 	
@@ -74,17 +79,16 @@ public class GameRenderer {
 	
 	private void drawObjects() {
 		for (GameObject obj : gameWorld.getWave()) {
-        	float objX = (obj.getBody().getPosition().x - (obj.getWidth() / 2)) * scale;
-        	float objY = (obj.getBody().getPosition().y - (obj.getHeight() / 2)) * scale;
+        	float objX = (obj.getX() - (obj.getWidth() / 2)) * scale;
+        	float objY = (obj.getY() - (obj.getHeight() / 2)) * scale;
         	float objWidth = obj.getWidth() * scale;
         	float objHeight = obj.getHeight() * scale;
-        	Texture objTexture;
         	if (obj.getItemID() == 1) {
-        		objTexture = AssetLoader.obstacleTexture;
+        		batch.draw(AssetLoader.obstacleTexture, objX, objY, objWidth, objHeight);
         	} else {
-        		objTexture = AssetLoader.rewardTexture;
+        		batch.draw(AssetLoader.rewardTexture, objX, objY, objWidth, objHeight);
         	}
-        	batch.draw(objTexture, objX, objY, objWidth, objHeight);
+        	
         }
 	}
 	
@@ -94,6 +98,7 @@ public class GameRenderer {
 	
 	public void dispose() {
 		Gdx.app.log("GameRenderer", "Dispose");
+		font.dispose();
 		batch.dispose();
 	}
 }

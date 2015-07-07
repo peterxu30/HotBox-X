@@ -24,6 +24,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.runninggame.gameobjects.GameObject;
 import com.runninggame.gameobjects.GameObjectMaker;
+import com.runninggame.gameobjects.NewWaveDetector;
 import com.runninggame.gameobjects.Obstacle;
 import com.runninggame.gameobjects.Player;
 import com.runninggame.gameobjects.Reward;
@@ -49,23 +50,31 @@ public class GameWorld {
 	private GameObjectMaker objectMaker;
 	
 	private ArrayList<GameObject> wave;
-	private long lastWaveTime;
-	private long waveTime;
-	
+	private boolean newWave;
+	private float spawnPoint;
 	private int score;
 	
-	public GameWorld(float gravityY, float scale, long waveTime, String gameMode) {
+	public NewWaveDetector wavePoint;
+	
+	public GameWorld(float gravityY, float scale, float spawnPoint, String gameMode) {
 		this.scale = scale;
-		this.waveTime = waveTime;
+		this.spawnPoint = spawnPoint;
 		if ("permadeath".equals(gameMode)) {
 			this.permadeath = true;
 		}
 		
 		physicsWorld = new World(new Vector2(0, gravityY), true);
 		setContactListener();
+		
+		/* When a wave passes this object, a new wave is created. */
+		wavePoint = (NewWaveDetector) new NewWaveDetector(physicsWorld, 1f/scale, 20f/scale)
+			.setPosition(spawnPoint / scale, 490f / scale)
+			.setSpeed(0f);
+	
 		player = new Player(physicsWorld, Config.playerWidth/scale, Config.playerHeight/scale);
 		player.setPosition(Config.playerX/scale, Config.playerY/scale);
 		player.setSpeed(Config.playerSpeed);
+		
 		addBoundaries();
 		wave = new ArrayList<GameObject>();
 		
@@ -77,6 +86,8 @@ public class GameWorld {
 			.setSpawn(Config.objectSpawnX)
 			.setObjectWidth(Config.objectWidth)
 			.setSpeed(Config.objectSpeed);
+		
+		newWave = true;
 	}
 	
 	private void setContactListener() {
@@ -84,21 +95,16 @@ public class GameWorld {
 
 			@Override
 			public void beginContact(Contact contact) {
-				Body bodyA = contact.getFixtureA().getBody();
 				Body bodyB = contact.getFixtureB().getBody();
-				
-				GameObject.GameObjectData dataA = (GameObject.GameObjectData) bodyA.getUserData();
 				GameObject.GameObjectData dataB = (GameObject.GameObjectData) bodyB.getUserData();
-				GameObject.GameObjectData gameObjectData = dataB;
 				
-				if (dataA != null && dataA.getID() != 0) {
-					gameObjectData = dataA;
-				}
-				
-				if (gameObjectData != null && (int) gameObjectData.getID() == 2) {
+				if (dataB.getID() == 4) {
+					newWave = true;
+				} 
+				if (dataB.getID() == 2) {
 					score += Config.rewardValue;
-					gameObjectData.markRemove();
-				} else if (gameObjectData != null && gameObjectData.getID() == 1) {
+					dataB.markRemove();
+				} else if (dataB.getID() == 1) {
 					if (permadeath) {
 						setGameOver();
 					} else {
@@ -106,10 +112,10 @@ public class GameWorld {
 							score -= Config.penaltyValue;
 						}
 					}
-					gameObjectData.markRemove();
+					dataB.markRemove();
 				}
 			}
-
+			
 			@Override
 			public void endContact(Contact contact) {
 				// TODO Auto-generated method stub
@@ -156,28 +162,28 @@ public class GameWorld {
 		groundBody.createFixture(fixtureDef);
 		
 		bodyDef.position.set(0, 42f/scale);
-
-		fixtureDef.friction = 1f;
-		fixtureDef.restitution = 0f;
 		
 		skyBody = physicsWorld.createBody(bodyDef);
 		skyBody.createFixture(fixtureDef);
 		
+		bodyDef.position.set(0, 510f/scale);
+		physicsWorld.createBody(bodyDef).createFixture(fixtureDef);
+		
 		groundShape.dispose();
 	}
 	
-	public void setWaveTime(long time) {
-		waveTime = time;
+	public float getSpawnPoint() {
+		return wavePoint.getBody().getPosition().x;
+	}
+	
+	public void setSpawnPoint(float spawnPoint) {
+		wavePoint.getBody().setTransform(spawnPoint / scale, 0f, 0f);
 	}
 	
 	public void update(float delta) {
-		physicsWorld.step(delta, 6, 2);
-		newWave();
+		physicsWorld.step(delta, 8, 3);
+		createWave();
 		removeObjects();
-		//test
-//		if (player.isMoving()) {
-//			player.move();
-//		}
 	}
 	
 	/**
@@ -185,10 +191,10 @@ public class GameWorld {
 	 * Responsible for creating a new wave of obstacles/rewards based on whether or not
 	 * sufficient time (waveTime) has passed since the last wave.
 	 */
-	private void newWave() {
-		if (TimeUtils.millis() - lastWaveTime > waveTime) {
+	private void createWave() {
+		if (newWave) {
 			wave.addAll(objectMaker.createWave());
-			lastWaveTime = TimeUtils.millis();
+			newWave = false;
 		}
 	}
 	
@@ -209,6 +215,8 @@ public class GameWorld {
 			physicsWorld.destroyBody(obj.getBody());
 			iterator.remove();
 		}
+		physicsWorld.destroyBody(player.getBody());
+		physicsWorld.destroyBody(wavePoint.getBody());
 		physicsWorld.dispose();
 	}
 	

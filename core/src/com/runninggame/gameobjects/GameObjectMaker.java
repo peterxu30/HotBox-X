@@ -3,12 +3,6 @@ package com.runninggame.gameobjects;
 import java.util.ArrayList;
 import java.util.Random;
 
-//import org.apache.commons.math3.distribution.NormalDistribution;
-//import org.apache.commons.math3.distribution.UniformIntegerDistribution;
-
-
-
-
 import com.badlogic.gdx.physics.box2d.World;
 import com.runninggame.distributions.NormalDistribution;
 import com.runninggame.distributions.UniformIntegerDistribution;
@@ -63,13 +57,10 @@ public class GameObjectMaker {
 	
 	public GameObjectMaker setDistribution(String dist, double normalMean, double normalSD) {
 		distType = dist;
-		switch (dist) {
-			case "normal":
-				distribution = new NormalDistribution(normalMean, normalSD);
-				break;
-			case "uniform":
-				distribution = new UniformIntegerDistribution(0, NUMBER_OF_ZONES - 1);
-				break;
+		if ("normal".equals(distType)) {
+			distribution = new NormalDistribution(normalMean, normalSD);
+		} else if ("uniform".equals(distType)) {
+			distribution = new UniformIntegerDistribution(0, NUMBER_OF_ZONES - 2);
 		}
 		return this;
 	}
@@ -135,13 +126,17 @@ public class GameObjectMaker {
 				obs = false;
 			}
 		}
+		NewWaveSignal nws = (NewWaveSignal) new NewWaveSignal(world, 20f / scale, 20f / scale)
+			.setSpeed(speed)
+			.setPosition(spawnX / scale, 490f / scale);
+		
 		return wave;
 	}
 	
 	private ArrayList<GameObject> createReward(ArrayList<GameObject> wave, float y) {
 		Reward reward = (Reward) new Reward(world, REWARD_LENGTH / scale, REWARD_LENGTH / scale)
 			.setSpeed(speed)
-			.setPosition(spawnX/scale, y/scale);
+			.setPosition(spawnX / scale, y / scale);
 		wave.add(reward);
 		return wave;
 	}
@@ -160,7 +155,7 @@ public class GameObjectMaker {
 			int random = (int) ((NormalDistribution) distribution).sample();
 			if (random < 0) {
 				random = 0;
-			} else if (random > NUMBER_OF_ZONES - 1) {
+			} else if (random >= NUMBER_OF_ZONES - 2) {
 				random = NUMBER_OF_ZONES - 1;
 			}
 			return random;
