@@ -9,10 +9,12 @@ import com.runninggame.screens.GameScreen;
 
 public class InputHandler implements InputProcessor {
 
+	private GameScreen screen;
 	private Player player;
 	
-	public InputHandler(Player player) {
-		this.player = player;
+	public InputHandler(GameScreen screen) {
+		this.screen = screen;
+		this.player = screen.getWorld().getPlayer();
 	}
 	
 	@Override
@@ -23,6 +25,12 @@ public class InputHandler implements InputProcessor {
 			case (Keys.SPACE):
 				player.move();
 				break;
+			case (Keys.P):
+				if (screen.isPaused()) {
+					screen.resume();
+				} else {
+					screen.pause();
+				}
 		}
 		return false;
 	}

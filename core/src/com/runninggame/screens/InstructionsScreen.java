@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.runninggame.RunningGame;
+import com.runninggame.helpers.AssetLoader;
 
 public class InstructionsScreen implements Screen {
 	private RunningGame game;
@@ -17,8 +18,8 @@ public class InstructionsScreen implements Screen {
 	public InstructionsScreen(RunningGame game) {
 		this.game = game;
 		batch = new SpriteBatch();
-		Texture instructions = new Texture(Gdx.files.internal("img/instructions.png"));
-		instructionsSprite = new Sprite(instructions);
+//		Texture instructions = //new Texture(Gdx.files.internal("img/instructions.png"));
+		instructionsSprite = new Sprite(AssetLoader.instructionsTexture);
 		instructionsSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 	}
 	
@@ -65,7 +66,7 @@ public class InstructionsScreen implements Screen {
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
-		instructionsSprite.getTexture().dispose();
+		AssetLoader.dispose("img/instructions.png");
 		batch.dispose();
 	}
 

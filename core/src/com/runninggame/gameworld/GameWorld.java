@@ -108,8 +108,9 @@ public class GameWorld {
 					if (permadeath) {
 						setGameOver();
 					} else {
-						if (score > Config.minScore) {
-							score -= Config.penaltyValue;
+						score -= Config.penaltyValue;
+						if (score <= Config.minScore) {
+							setGameOver();
 						}
 					}
 					dataB.markRemove();

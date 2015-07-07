@@ -42,7 +42,7 @@ public class Config {
 	public static float normalSD = 1;
 	public static float waveTime = 480f;
 	public static int rewardValue = 1;
-	public static int penaltyValue = 1;
+	public static int penaltyValue = 5;
 	public static int minScore = 0;
 	public static String distribution = "uniform";
 	public static String gameMode = "penalty";

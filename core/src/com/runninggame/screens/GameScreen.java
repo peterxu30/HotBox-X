@@ -1,7 +1,5 @@
 package com.runninggame.screens;
 
-import com.badlogic.gdx.ApplicationListener;
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.runninggame.RunningGame;
@@ -18,13 +16,12 @@ public class GameScreen implements Screen {
 	private RunningGame game;
 	private GameWorld world;
 	private GameRenderer renderer;
-	private float timeStep = TIME_STEP;
 	
 	public GameScreen(RunningGame game) {
 		this.game = game;
 		world = new GameWorld(Config.gravity, Config.SCALE, Config.waveTime, Config.gameMode);
 		renderer = new GameRenderer(world, SCREEN_WIDTH, SCREEN_HEIGHT, Config.SCALE);
-		Gdx.input.setInputProcessor(new InputHandler(world.getPlayer()));
+		Gdx.input.setInputProcessor(new InputHandler(this));
 	}
 	
 	@Override
@@ -34,13 +31,12 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void render(float delta) {
-		// TODO Auto-generated method stub
 //		world.update(Math.min(delta, timeStep));
 //		world.update(delta);
 		if (!paused) {
 			System.out.println(1/delta);
-			world.update(timeStep);
-			renderer.render();
+			world.update(TIME_STEP);
+			renderer.render(delta);
 			checkGameStatus();
 		}
 	}
@@ -48,17 +44,11 @@ public class GameScreen implements Screen {
 	private void checkGameStatus() {
 		if (world.isGameOver()) {
 			game.setScreen(new GameScreen(game));
-//			dispose();
-//			world = new GameWorld(Config.gravity, Config.SCALE, Config.waveTime, Config.gameMode);
-//			renderer = new GameRenderer(world, SCREEN_WIDTH, SCREEN_HEIGHT, Config.SCALE);
-//			Gdx.input.setInputProcessor(new InputHandler(world.getPlayer()));
-//			resume();
 		}
 	}
 
 	@Override
 	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
 		renderer.resize(width, height);
 	}
 
@@ -90,5 +80,13 @@ public class GameScreen implements Screen {
 		Gdx.app.log("GameScreen", "Dispose");
 		renderer.dispose();
 		world.dispose();
+	}
+	
+	public GameWorld getWorld() {
+		return world;
+	}
+	
+	public boolean isPaused() {
+		return paused;
 	}
 }

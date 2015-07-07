@@ -52,15 +52,16 @@ public class GameRenderer {
 		skyY = gameWorld.getSkyBody().getPosition().y * scale - 42f;
 	}
 	
-	public void render() {
-		Gdx.gl.glClearColor(0, 0, 0, 1);
+	public void render(float delta) {
+		Gdx.gl.glClearColor(96 / 275f, 96 / 275f, 96 / 275f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
         batch.begin();
         drawPlayer();
-        drawBoundaries();
         drawObjects();
+        drawBoundaries();
         font.draw(batch, "Score: " + Integer.toString(gameWorld.getScore()), 100f, 50f);
+        font.draw(batch, "FPS: " + Float.toString(1/delta), 100f, 80f);
         batch.end();
 	}
 	
@@ -73,8 +74,8 @@ public class GameRenderer {
 	}
 	
 	private void drawBoundaries() {
-		batch.draw(AssetLoader.obstacleTexture, boundaryX, groundY, width, gameWorld.getBoundaryWidth());
-        batch.draw(AssetLoader.obstacleTexture, boundaryX, skyY, width, gameWorld.getBoundaryWidth());
+		batch.draw(AssetLoader.boundaryTexture, boundaryX, groundY, width, gameWorld.getBoundaryWidth());
+        batch.draw(AssetLoader.boundaryTexture, boundaryX, skyY, width, gameWorld.getBoundaryWidth());
 	}
 	
 	private void drawObjects() {
