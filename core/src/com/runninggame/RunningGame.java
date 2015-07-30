@@ -1,14 +1,11 @@
 package com.runninggame;
 
-import java.io.FileNotFoundException;
-
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.runninggame.helpers.AssetLoader;
 import com.runninggame.helpers.Config;
-import com.runninggame.screens.GameScreen;
+import com.runninggame.helpers.DataPoster;
 import com.runninggame.screens.InstructionsScreen;
-import com.runninggame.screens.Splash;
 
 public class RunningGame extends Game {
 	
@@ -18,11 +15,7 @@ public class RunningGame extends Game {
 	@Override
 	public void create() {
 		AssetLoader.load();
-		try {
-			Config.load();
-		} catch (FileNotFoundException e) {
-			Gdx.app.log("Config Error", "File Missing");
-		}
+		Config.loadJson();
 //		setScreen(new GameScreen());
 		setScreen(new InstructionsScreen(this));
 	}

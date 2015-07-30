@@ -129,7 +129,7 @@ public class GameObjectMaker {
 		NewWaveSignal nws = (NewWaveSignal) new NewWaveSignal(world, 20f / scale, 20f / scale)
 			.setSpeed(speed)
 			.setPosition(spawnX / scale, 490f / scale);
-		
+		wave.add(nws);
 		return wave;
 	}
 	

@@ -1,33 +1,20 @@
 package com.runninggame.helpers;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Map;
-
-//import org.ho.yaml.Yaml;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Net.HttpMethods;
+import com.badlogic.gdx.Net.HttpRequest;
+import com.badlogic.gdx.Net.HttpResponse;
+import com.badlogic.gdx.Net.HttpResponseListener;
+import com.badlogic.gdx.net.HttpRequestBuilder;
+import com.badlogic.gdx.utils.JsonReader;
+import com.badlogic.gdx.utils.JsonValue;
 
 public class Config {
 	
 	public final static float SCALE = 40;
-//	public static float playerSpeed;
-//	public static float playerWidth;
-//	public static float playerHeight;
-//	public static float playerX; 
-//	public static float playerY;
-//	public static float gravity;
-//	public static float objectWidth;
-//	public static float objectSpeed; 
-//	public static float objectSpawnX;
-//	public static float normalMean;
-//	public static float normalSD;
-//	public static long waveTime;
-//	public static int rewardValue;
-//	public static int penaltyValue;
-//	public static int minScore;
-//	public static String distribution;
-//	public static String gameMode;
-//	public static boolean splash;
+	
+	public static final String DATA_URL = "http://localhost:3000/data/";
+	private static final String CONFIG_URL = "http://localhost:3000/settings/";
 	
 	public static float playerSpeed = 7.3f;
 	public static float playerWidth = 32f;
@@ -40,39 +27,85 @@ public class Config {
 	public static float objectSpawnX = 800f;
 	public static float normalMean = 1;
 	public static float normalSD = 1;
-	public static float waveTime = 480f;
+	public static float waveStart = 480f;
 	public static int rewardValue = 1;
 	public static int penaltyValue = 5;
 	public static int minScore = 0;
 	public static String distribution = "uniform";
 	public static String gameMode = "penalty";
-	public static boolean splash = false;
 
-	public static void load() throws FileNotFoundException {
-//		File configFile = new File("config.yml");
-//		Object temp = Yaml.load(configFile);
-//		Map<?, ?> configMap = (Map<?, ?>) temp;
-//
-//		playerSpeed = ((Double) configMap.get("playerSpeed")).floatValue();
-//		playerWidth = ((Double) configMap.get("playerWidth")).floatValue();
-//		playerHeight = ((Double) configMap.get("playerHeight")).floatValue();
-//		playerX = ((Double) configMap.get("playerX")).floatValue();
-//		playerY = ((Double) configMap.get("playerY")).floatValue();
-//		gravity = ((Double) configMap.get("gravity")).floatValue();
-//		objectWidth = ((Double) configMap.get("objectWidth")).floatValue();
-//		objectSpeed = ((Double) configMap.get("objectSpeed")).floatValue();
-//		objectSpawnX = ((Double) configMap.get("objectSpawnX")).floatValue();
-//		normalMean = ((Double) configMap.get("normalMean")).floatValue();
-//		normalSD = ((Double) configMap.get("normalSD")).floatValue();
-//		waveTime = ((Double) configMap.get("waveTime")).longValue(); 
-//		rewardValue = ((Integer) configMap.get("rewardValue"));
-//		penaltyValue = ((Integer) configMap.get("penaltyValue"));
-//		minScore = ((Integer) configMap.get("minScore"));
-//		distribution = ((String) configMap.get("distribution"));
-//		gameMode = ((String) configMap.get("gameMode"));
-//		splash = (boolean) configMap.get("splash");
-//		ArrayList<?> arrayTest = (ArrayList<?>) configMap.get("test"); 
-//		int x = (int) arrayTest.get(0);
-//		System.out.println(x);
+	private static boolean loaded;
+	private static int numberOfGames; 
+	private static int currentGame = 0;
+	private static JsonValue json;
+	private static JsonValue currentJson;
+
+	public static void loadJson() {
+		HttpRequestBuilder requestBuilder = new HttpRequestBuilder();
+		HttpRequest httpRequest = requestBuilder
+				.newRequest().method(HttpMethods.GET)
+				.url(CONFIG_URL)
+				.build();
+		Gdx.net.sendHttpRequest(httpRequest, new HttpResponseListener() {
+
+			@Override
+			public void handleHttpResponse(HttpResponse httpResponse) {
+				final int statusCode = httpResponse.getStatus().getStatusCode();
+	            String settingsJson = httpResponse.getResultAsString();
+	            json = new JsonReader().parse(settingsJson);
+	            numberOfGames = json.size;
+	            loaded = true;
+	            System.out.println(settingsJson);
+			}
+
+			@Override
+			public void failed(Throwable t) {
+				// TODO Auto-generated method stub
+				loaded = false;
+				System.out.println("HTTP request failed!");
+			}
+
+			@Override
+			public void cancelled() {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+	}
+	
+	public static void load() {
+		if (loaded) {
+			currentJson = json.require(currentGame);
+			playerSpeed = currentJson.getFloat("playerSpeed");
+			playerWidth = currentJson.getFloat("playerWidth");
+			playerHeight = currentJson.getFloat("playerHeight");
+			playerX = currentJson.getFloat("playerX");
+			playerY = currentJson.getFloat("playerY");
+			gravity = currentJson.getFloat("gravity");
+			objectWidth = currentJson.getFloat("objectWidth");
+			objectSpeed = currentJson.getFloat("objectSpeed");
+			objectSpawnX = currentJson.getFloat("objectSpawnX");
+			normalMean = currentJson.getFloat("normalMean");
+			normalSD = currentJson.getFloat("normalSD");
+			waveStart = currentJson.getFloat("waveStart");
+			rewardValue = currentJson.getInt("rewardValue");
+			penaltyValue = currentJson.getInt("penaltyValue");
+			minScore = currentJson.getInt("minScore");
+			distribution = currentJson.getString("distribution");
+			gameMode = currentJson.getString("gameMode");
+			currentGame += 1;
+		}
+	}
+	
+	public static void reset() {
+		currentGame = 0;
+	}
+	
+	public static boolean gamesOver() {
+		return (currentGame >= numberOfGames);
+	}
+	
+	public static int getCurrentGame() {
+		return currentGame;
 	}
 }

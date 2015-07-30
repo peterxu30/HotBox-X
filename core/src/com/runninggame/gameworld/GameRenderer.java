@@ -3,7 +3,6 @@ package com.runninggame.gameworld;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -43,10 +42,10 @@ public class GameRenderer {
 		batch.setProjectionMatrix(camera.combined);
 		player = gameWorld.getPlayer();
 		
-		calculations();
+		boundaryCalculations();
 	}
 	
-	private void calculations() {
+	private void boundaryCalculations() {
 		boundaryX = gameWorld.getGroundBody().getPosition().x * scale;
 		groundY = gameWorld.getGroundBody().getPosition().y * scale;
 		skyY = gameWorld.getSkyBody().getPosition().y * scale - 42f;
@@ -86,10 +85,9 @@ public class GameRenderer {
         	float objHeight = obj.getHeight() * scale;
         	if (obj.getItemID() == 1) {
         		batch.draw(AssetLoader.obstacleTexture, objX, objY, objWidth, objHeight);
-        	} else {
+        	} else if (obj.getItemID() == 2) {
         		batch.draw(AssetLoader.rewardTexture, objX, objY, objWidth, objHeight);
         	}
-        	
         }
 	}
 	

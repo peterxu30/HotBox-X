@@ -1,7 +1,6 @@
 package com.runninggame.helpers;
 
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.runninggame.gameobjects.Player;
@@ -24,6 +23,7 @@ public class InputHandler implements InputProcessor {
 		switch (keycode) {
 			case (Keys.SPACE):
 				player.move();
+				DataPoster.hasJumped(player.getY(), screen.getWorld().getScore());
 				break;
 			case (Keys.P):
 				if (screen.isPaused()) {

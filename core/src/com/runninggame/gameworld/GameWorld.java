@@ -2,36 +2,25 @@ package com.runninggame.gameworld;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.PriorityQueue;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
-import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.badlogic.gdx.utils.TimeUtils;
 import com.runninggame.gameobjects.GameObject;
 import com.runninggame.gameobjects.GameObjectMaker;
 import com.runninggame.gameobjects.NewWaveDetector;
-import com.runninggame.gameobjects.Obstacle;
 import com.runninggame.gameobjects.Player;
-import com.runninggame.gameobjects.Reward;
-import com.runninggame.helpers.AssetLoader;
 import com.runninggame.helpers.Config;
-import com.runninggame.screens.GameScreen;
-import com.runninggame.screens.Splash;
+import com.runninggame.helpers.DataPoster;
 
 public class GameWorld {
 	
@@ -57,6 +46,8 @@ public class GameWorld {
 	public NewWaveDetector wavePoint;
 	
 	public GameWorld(float gravityY, float scale, float spawnPoint, String gameMode) {
+		DataPoster.initialize();
+		
 		this.scale = scale;
 		this.spawnPoint = spawnPoint;
 		if ("permadeath".equals(gameMode)) {
@@ -98,21 +89,22 @@ public class GameWorld {
 				Body bodyB = contact.getFixtureB().getBody();
 				GameObject.GameObjectData dataB = (GameObject.GameObjectData) bodyB.getUserData();
 				
+				// New wave detector
 				if (dataB.getID() == 4) {
 					newWave = true;
 				} 
 				if (dataB.getID() == 2) {
 					score += Config.rewardValue;
+					DataPoster.hasCollided(player.getY(), getScore(), true);
 					dataB.markRemove();
 				} else if (dataB.getID() == 1) {
-					if (permadeath) {
-						setGameOver();
-					} else {
+					if (!permadeath) {
 						score -= Config.penaltyValue;
-						if (score <= Config.minScore) {
-							setGameOver();
-						}
 					}
+					if (permadeath || score < Config.minScore) {
+						setGameOver();
+					}
+					DataPoster.hasCollided(player.getY(), getScore(), false);
 					dataB.markRemove();
 				}
 			}
@@ -183,7 +175,11 @@ public class GameWorld {
 	
 	public void update(float delta) {
 		physicsWorld.step(delta, 8, 3);
-		createWave();
+		
+		if (newWave) {
+			createWave();
+			newWave = false;
+		}
 		removeObjects();
 	}
 	
@@ -193,16 +189,15 @@ public class GameWorld {
 	 * sufficient time (waveTime) has passed since the last wave.
 	 */
 	private void createWave() {
-		if (newWave) {
-			wave.addAll(objectMaker.createWave());
-			newWave = false;
-		}
+		ArrayList<GameObject> wavePositions = objectMaker.createWave();
+		wave.addAll(wavePositions);
+		DataPoster.createdWave(player.getY(), wavePositions, getScore());
 	}
 	
 	private void removeObjects() {
 		for (Iterator<GameObject> iterator = wave.iterator(); iterator.hasNext();) {
 		    GameObject obj = iterator.next();
-		    if ((obj.getBody().getPosition().x * scale) < -10 || obj.checkRemove()) {
+		    if ((obj.getBody().getPosition().x * scale) < -5 || obj.checkRemove()) {
 				physicsWorld.destroyBody(obj.getBody());
 				iterator.remove();
 			}
