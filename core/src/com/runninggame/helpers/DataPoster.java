@@ -22,7 +22,7 @@ public class DataPoster {
 	private static boolean newWave;
 	private static boolean obstacleCollision;
 	private static boolean rewarded;
-	private static int gameNumber = 0;
+	private static int gameNumber;
 	private static long time;
 	
 	private static final String id = UUID.randomUUID().toString();
@@ -66,6 +66,7 @@ public class DataPoster {
 		DataList dataList = new DataList();
 		
 		dataList.timeStamp = (TimeUtils.millis() - time) / 1000.0;
+		dataList.waveSpawned = newWave;
 		dataList.pressedSpace = jumped;
 		dataList.obstacleCollision = obstacleCollision;
 		dataList.rewarded = rewarded;
@@ -121,7 +122,7 @@ public class DataPoster {
 		jsonObj.setUsePrototypes(false);
 		String json = jsonObj.toJson(allData);
 				
-		System.out.println(allData.get(0).gameData.size());
+		System.out.println(allData.size());
 		
 		HttpRequestBuilder requestBuilder = new HttpRequestBuilder();
 		HttpRequest httpRequest = requestBuilder
@@ -178,6 +179,7 @@ public class DataPoster {
 	/* Helper class of Data class. Will get serialized into JSON */
 	private static class DataList {
 		private double timeStamp;
+		private boolean waveSpawned;
 		private boolean pressedSpace;
 		private boolean obstacleCollision;
 		private boolean rewarded;

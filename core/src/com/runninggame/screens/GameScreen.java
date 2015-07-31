@@ -45,11 +45,11 @@ public class GameScreen implements Screen {
 	
 	private void checkGameStatus() {
 		if (world.isGameOver()) {
+			DataPoster.newRound(Config.getCurrentGame());
 			if (Config.gamesOver()) {
 				DataPoster.sendData();
 				game.setScreen(new EndScreen(game));
 			} else {
-				DataPoster.newRound(Config.getCurrentGame() - 1);
 				game.setScreen(new GameScreen(game));
 			}
 		}
