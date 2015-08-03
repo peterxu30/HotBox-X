@@ -16,7 +16,6 @@ public class RunningGame extends Game {
 	public void create() {
 		AssetLoader.load();
 		Config.loadJson();
-//		setScreen(new GameScreen());
 		setScreen(new InstructionsScreen(this));
 	}
 	

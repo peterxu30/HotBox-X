@@ -34,7 +34,7 @@ public class InstructionsScreen implements Screen {
 		batch.begin();
 		instructionsSprite.draw(batch);
 		batch.end();
-		if (Gdx.input.isKeyPressed(Keys.SPACE)) {
+		if (Gdx.input.isKeyJustPressed(Keys.SPACE)) {
 			game.setScreen(new GameScreen(game));
 		}
 	}
@@ -66,7 +66,7 @@ public class InstructionsScreen implements Screen {
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
-		AssetLoader.dispose("img/instructions.png");
+//		AssetLoader.dispose("img/instructions.png");
 		batch.dispose();
 	}
 

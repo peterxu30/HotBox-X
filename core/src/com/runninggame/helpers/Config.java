@@ -53,7 +53,8 @@ public class Config {
 				final int statusCode = httpResponse.getStatus().getStatusCode();
 	            String settingsJson = httpResponse.getResultAsString();
 	            json = new JsonReader().parse(settingsJson);
-	            numberOfGames = json.size;
+	            numberOfGames = json.getInt("length");
+	            json = json.require("settings");
 	            loaded = true;
 	            System.out.println(settingsJson);
 			}
