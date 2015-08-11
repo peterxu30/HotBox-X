@@ -19,33 +19,77 @@ import com.runninggame.gameobjects.GameObject;
 import com.runninggame.gameobjects.GameObjectMaker;
 import com.runninggame.gameobjects.NewWaveDetector;
 import com.runninggame.gameobjects.Player;
-import com.runninggame.helpers.Config;
-import com.runninggame.helpers.DataPoster;
+import com.runninggame.utilities.Config;
+import com.runninggame.utilities.DataPoster;
 
+/**
+ * GameWorld takes care of all game logic. This includes wave spawning, score keeping,
+ * and object collisions.
+ * @author Peter
+ *
+ */
 public class GameWorld {
 	
+	/** The Box2D world */
 	private World physicsWorld;
+	
+	/** Gravity in Box2D units */
 	private float gravity;
+	
+	/** Conversion scale from Box2D units to pixels */
 	private float scale;
+	
+	/** Current game mode */
 	private boolean permadeath;
+	
+	/** Is game over */
 	private boolean gameOver;
 	
+	/** Player object */
 	private Player player;
+	
+	/** Width of player object in pixels */
 	private float playerWidth;
+	
+	/** Height of player object in pixles */
 	private float playerHeight;
+	
+	/** Box2D body of ground */
 	private Body groundBody;
+	
+	/** Box2D body of sky */
 	private Body skyBody;
+	
+	/** Width of sky and ground boundaries */
 	private final float BOUNDARY_WIDTH = 42f;
+	
+	/** Wave spawner */
 	private GameObjectMaker objectMaker;
 	
+	/** Represents wave, contains obstacles, rewards, and newWaveSignals */
 	private ArrayList<GameObject> wave;
+	
+	/** New wave indicator */
 	private boolean newWave;
+	
+	/** Where the current wave must pass to spawn a new wave */
 	private float spawnPoint;
+	
+	/** Player score */
 	private int score;
 	
+	/** Positioned at the spawnPoint to signal when to spawn new waves */
 	public NewWaveDetector wavePoint;
 	
+	/**
+	 * Class constructor
+	 * @param gravityY: Vertical gravity component in Box2D units
+	 * @param scale: Conversion scale from Box2D units to pixels
+	 * @param spawnPoint: Where current wave must pass to spawn new wave
+	 * @param gameMode: Permadeath or penalty
+	 */
 	public GameWorld(float gravityY, float scale, float spawnPoint, String gameMode) {
+		// Set up the data recorder for this round
 		DataPoster.initialize();
 		
 		this.scale = scale;
@@ -81,6 +125,9 @@ public class GameWorld {
 		newWave = true;
 	}
 	
+	/**
+	 * Collision detector
+	 */
 	private void setContactListener() {
 		physicsWorld.setContactListener(new ContactListener() {
 
@@ -130,14 +177,24 @@ public class GameWorld {
 		});
 	}
 	
+	/**
+	 * Check if game is over
+	 * @return boolean
+	 */
 	public boolean isGameOver() {
 		return gameOver;
 	}
 	
+	/**
+	 * Mark the game as over
+	 */
 	public void setGameOver() {
 		gameOver = true;
 	}
 	
+	/**
+	 * Creates sky and ground boundaries
+	 */
 	private void addBoundaries() {
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.type = BodyType.StaticBody;
@@ -165,14 +222,26 @@ public class GameWorld {
 		groundShape.dispose();
 	}
 	
+	/**
+	 * Get the x-coordinate of spawn point
+	 * @return
+	 */
 	public float getSpawnPoint() {
 		return wavePoint.getBody().getPosition().x;
 	}
 	
+	/**
+	 * Set the x-coordinate of spawn point
+	 * @param spawnPoint
+	 */
 	public void setSpawnPoint(float spawnPoint) {
 		wavePoint.getBody().setTransform(spawnPoint / scale, 0f, 0f);
 	}
 	
+	/**
+	 * Update the physics engine and create new waves
+	 * @param delta: Time inverval between updates
+	 */
 	public void update(float delta) {
 		physicsWorld.step(delta, 8, 3);
 		
@@ -194,6 +263,9 @@ public class GameWorld {
 		DataPoster.createdWave(player.getY(), wavePositions, getScore());
 	}
 	
+	/**
+	 * Remove objects that have left the screen
+	 */
 	private void removeObjects() {
 		for (Iterator<GameObject> iterator = wave.iterator(); iterator.hasNext();) {
 		    GameObject obj = iterator.next();
@@ -204,6 +276,9 @@ public class GameWorld {
 		}
 	}
 	
+	/**
+	 * Dispose of game elements
+	 */
 	public void dispose() {
 		Gdx.app.log("GameWorld", "Dispose");
 		for (Iterator<GameObject> iterator = wave.iterator(); iterator.hasNext();) {
@@ -216,31 +291,60 @@ public class GameWorld {
 		physicsWorld.dispose();
 	}
 	
+	/**
+	 * Get the player object
+	 * @return player object
+	 */
 	public Player getPlayer() {
 		return player;
 	}
 	
+	/**
+	 * Get ground Box2D body
+	 * @return ground body
+	 */
 	public Body getGroundBody() {
 		return groundBody;
 	}
 	
+	/**
+	 * Get sky Box2D body
+	 * @return sky body
+	 */
 	public Body getSkyBody() {
 		return skyBody;
 	}
 	
+	/**
+	 * Get wave of gameObjects
+	 * @return ArrayList of gameObjects
+	 */
 	public ArrayList<GameObject> getWave() {
 		return wave;
 	}
 	
+	/**
+	 * Get the Box2D world
+	 * @return Box2D world
+	 */
 	public World getWorld() {
 		return physicsWorld;
 	}
 	
+	/**
+	 * Get player score
+	 * @return player score
+	 */
 	public int getScore() {
 		return score;
 	}
 	
+	/**
+	 * Get width of sky and ground boundaries
+	 * @return Width of boundaries
+	 */
 	public float getBoundaryWidth() {
 		return BOUNDARY_WIDTH;
 	}
+	
 }

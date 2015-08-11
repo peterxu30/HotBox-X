@@ -6,28 +6,50 @@ import java.util.Random;
  * Much of this code was borrowed from Apache Commons Math's UniformIntegerDistribution class.
  * Gutted to only return samples from the distribution.
  * @author Peter
- *
+ * 
  */
 public class UniformIntegerDistribution {
 	
+	/** Distribution lower bound */
 	private final int lower;
+	
+	/** Distribution upper bound */
 	private final int upper;
+	
+	/** Random number generator */
 	private final Random random;
 	
+	/**
+	 * Class constructor
+	 * @param lower: Distribution lower bound
+	 * @param upper: Distribution upper bound
+	 */
 	public UniformIntegerDistribution(int lower, int upper) {
 		this.lower = lower;
 		this.upper = upper;
 		random = new Random();
 	}
 	
+	/**
+	 * Get distribution lower bound
+	 * @return distribution lower bound
+	 */
 	public int getLower() {
 		return lower;
 	}
 	
+	/**
+	 * Get distribution upper bound
+	 * @return distribution upper bound
+	 */
 	public int getUpper() {
 		return upper;
 	}
 	
+	/**
+	 * Random sample of distribution
+	 * @return sample of distribution
+	 */
 	public int sample() {
 		final int max = (upper - lower) + 1;
         if (max <= 0) {

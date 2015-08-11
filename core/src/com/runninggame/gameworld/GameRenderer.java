@@ -9,23 +9,59 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.runninggame.gameobjects.GameObject;
 import com.runninggame.gameobjects.Player;
-import com.runninggame.helpers.AssetLoader;
+import com.runninggame.utilities.AssetLoader;
 
+/**
+ * GameRenderer performs the all of the game's visual rendering.
+ * Created in GameScreen class. 
+ * @author Peter
+ *
+ */
 public class GameRenderer {
 	
+	/** GameWorld of current game. Game logic is taken care of the gameWorld */
 	private GameWorld gameWorld;
+	
+	/** LibGDX camera for the game. Determines what to display on screen. */
 	private OrthographicCamera camera;
+	
+	/** LibGDX viewport. Relevant in resizing the window. */
 	private Viewport viewport;
+	
+	/** Responsible for drawing sprites and textures */
 	private SpriteBatch batch;
+	
+	/** Font for score text */
 	private BitmapFont font;
+	
+	/** Conversion scale from Box2D units to pixels */
 	private float scale;
+	
+	/** Width of screen in pixels */
 	private float width;
+	
+	/** Height of screen in pixels */
 	private float height;
+	
+	/** X-coordinate of ground and sky bodies */
 	private float boundaryX;
+	
+	/** Y-coordinate of ground body */
 	private float groundY;
+	
+	/** Y-coordinate of sky body */
 	private float skyY;
+	
+	/** Player object */
 	private Player player;
 	
+	/**
+	 * Class constructor
+	 * @param gameWorld: Current gameWorld object
+	 * @param width: Width of screen in pixels
+	 * @param height: Height of screen in pixels
+	 * @param scale: Conversion scale from Box2D units to pixels
+	 */
 	public GameRenderer(GameWorld gameWorld, float width, float height, float scale) {
 		this.gameWorld = gameWorld;
 		this.scale = scale;
@@ -45,12 +81,20 @@ public class GameRenderer {
 		boundaryCalculations();
 	}
 	
+	/**
+	 * Calculates the coordinates of the ground and sky bodies, which are
+	 * the boundaries of the playable portion of the screen.
+	 */
 	private void boundaryCalculations() {
 		boundaryX = gameWorld.getGroundBody().getPosition().x * scale;
 		groundY = gameWorld.getGroundBody().getPosition().y * scale;
 		skyY = gameWorld.getSkyBody().getPosition().y * scale - 42f;
 	}
 	
+	/**
+	 * Main render method for rendering visuals.
+	 * @param delta
+	 */
 	public void render(float delta) {
 		Gdx.gl.glClearColor(96 / 275f, 96 / 275f, 96 / 275f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -64,6 +108,9 @@ public class GameRenderer {
         batch.end();
 	}
 	
+	/**
+	 * Helper method for render. Draws the player character.
+	 */
 	private void drawPlayer() {
 		float playerX = (player.getX() - (player.getWidth() / 2)) * scale;
 		float playerY = (player.getY() - (player.getHeight() / 2)) * scale;
@@ -72,11 +119,17 @@ public class GameRenderer {
 		batch.draw(AssetLoader.playerTexture, playerX, playerY, playerW, playerH);
 	}
 	
+	/**
+	 * Helper method for render. Draws the ground and sky.
+	 */
 	private void drawBoundaries() {
 		batch.draw(AssetLoader.boundaryTexture, boundaryX, groundY, width, gameWorld.getBoundaryWidth());
         batch.draw(AssetLoader.boundaryTexture, boundaryX, skyY, width, gameWorld.getBoundaryWidth());
 	}
 	
+	/**
+	 * Helper method for render. Draws object waves (obstacles and rewards).
+	 */
 	private void drawObjects() {
 		for (GameObject obj : gameWorld.getWave()) {
         	float objX = (obj.getX() - (obj.getWidth() / 2)) * scale;
@@ -91,14 +144,22 @@ public class GameRenderer {
         }
 	}
 	
+	/**
+	 * Resizing method. When the game window is expanded/shrunk.
+	 * @param width: New width of screen.
+	 * @param height: New height of screen.
+	 */
 	public void resize(int width, int height) {
 		viewport.update(width, height);
 	}
 	
+	/**
+	 * Dispose game elements Java garbage collector is unable to dispose of.
+	 */
 	public void dispose() {
 		Gdx.app.log("GameRenderer", "Dispose");
 		font.dispose();
 		batch.dispose();
 	}
+	
 }
-

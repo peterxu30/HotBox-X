@@ -8,18 +8,24 @@ import com.badlogic.gdx.Gdx;
  * Much of this code was borrowed from Apache Commons Math
  * Gutted to only return samples from the distribution.
  * @author Peter
- *
+ * 
  */
 public class NormalDistribution {
 	
-	public static final double DEFAULT_INVERSE_ABSOLUTE_ACCURACY = 1e-9;
-	
 	/** Mean of this distribution. */
 	private final double mean;
+	
 	/** Standard deviation of this distribution. */
 	private final double standardDeviation;
+	
+	/** Random number generator */
 	private Random random;
 	
+	/**
+	 * Class constructor
+	 * @param mean: Mean of new distribution
+	 * @param standardDeviation: Standard deviation of new distribution
+	 */
 	public NormalDistribution(double mean, double standardDeviation) {
 		if (standardDeviation < 0) {
 			Gdx.app.log("NormalDistribution", "Standard deviation must be positive");
@@ -30,14 +36,26 @@ public class NormalDistribution {
 		random = new Random();
 	}
 	
+	/**
+	 * Return mean of distribution
+	 * @return mean of distribution
+	 */
     public double getMean() {
         return mean;
     }
     
+    /**
+     * Return standard deviation of distribution
+     * @return standard deviation of distribution
+     */
     public double getStandardDeviation() {
         return standardDeviation;
     }
     
+    /**
+     * Sample the distribution
+     * @return a sample of the distribution
+     */
     public double sample()  {
         return standardDeviation * random.nextGaussian() + mean;
     }
