@@ -151,7 +151,6 @@ public class Config {
 			 */
 			@Override
 			public void cancelled() {
-				// TODO Auto-generated method stub
 				Gdx.app.log("Config", "HTTP request cancelled!");
 			}
 		});
@@ -176,9 +175,6 @@ public class Config {
 				Config.tokenString = httpResponse.getResultAsString();
 				JsonValue token = new JsonReader().parse(Config.tokenString);
 				Config.tokenString = token.getString("token");
-	            System.out.println(tokenString);
-	            
-	            loadJson();
 			}
 
 			@Override

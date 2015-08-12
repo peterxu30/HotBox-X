@@ -24,6 +24,7 @@ public class GameMain extends Game {
 	public void create() {
 		AssetLoader.load();
 		Config.login();
+		Config.loadJson();
 		setScreen(new InstructionsScreen(this));
 	}
 	

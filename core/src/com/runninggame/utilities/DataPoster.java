@@ -54,9 +54,9 @@ public class DataPoster {
 	private static ArrayList<Data> allData = new ArrayList<Data>();
 	
 	/**
-	 * Initialize DataPoster for new game
+	 * Reset time for new game.
 	 */
-	public static void initialize() {
+	public static void resetTime() {
 		time = TimeUtils.millis();
 		currentData = new Data();
 		currentData.id = id;
@@ -64,16 +64,13 @@ public class DataPoster {
 	}
 	
 	/**
+	 * Adds data for previous round to allData.
 	 * Set up for new round.
 	 * @param game
 	 */
 	public static void newRound(int game) {
 		gameNumber = game;
 		allData.add(currentData);
-		currentData = new Data();
-		currentData.id = id;
-		currentData.game = gameNumber;
-		time = TimeUtils.millis();
 	}
 	
 	/**
@@ -196,8 +193,6 @@ public class DataPoster {
 			
 			@Override
 			public void handleHttpResponse(HttpResponse httpResponse) {
-				final int statusCode = httpResponse.getStatus().getStatusCode();
-	            System.out.println("Success: " + statusCode);
 	            Json temp = new Json();
 	            temp.setUsePrototypes(false);
 	            System.out.println(temp.prettyPrint(allData));
@@ -205,16 +200,13 @@ public class DataPoster {
 
 			@Override
 			public void failed(Throwable t) {
-				System.out.println("HTTP request failed!");
-				Json temp = new Json();
-	            temp.setUsePrototypes(false);
-	            System.out.println(temp.prettyPrint(allData));
+				Gdx.app.log("DataPoster", "HTTP request failed!");
 			}
 
 			@Override
 			public void cancelled() {
 				// TODO Auto-generated method stub
-				System.out.println("Cancelled");
+				Gdx.app.log("DataPoster", "HTTP request cancelled!");
 				
 			}
 		});

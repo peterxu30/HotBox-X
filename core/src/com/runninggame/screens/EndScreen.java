@@ -25,6 +25,7 @@ public class EndScreen implements Screen {
 	/** LibGDX camera for the game. Determines what to display on screen. */
 	private OrthographicCamera camera;
 	
+	/** LibGDX viewport. Relevant in resizing the window. */
 	private Viewport viewport;
 	
 	/** Screen width in pixels */

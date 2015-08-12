@@ -157,7 +157,6 @@ public class GameRenderer {
 	 * Dispose game elements Java garbage collector is unable to dispose of.
 	 */
 	public void dispose() {
-		Gdx.app.log("GameRenderer", "Dispose");
 		font.dispose();
 		batch.dispose();
 	}

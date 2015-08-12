@@ -90,7 +90,7 @@ public class GameWorld {
 	 */
 	public GameWorld(float gravityY, float scale, float spawnPoint, String gameMode) {
 		// Set up the data recorder for this round
-		DataPoster.initialize();
+		DataPoster.resetTime();
 		
 		this.scale = scale;
 		this.spawnPoint = spawnPoint;
@@ -280,7 +280,6 @@ public class GameWorld {
 	 * Dispose of game elements
 	 */
 	public void dispose() {
-		Gdx.app.log("GameWorld", "Dispose");
 		for (Iterator<GameObject> iterator = wave.iterator(); iterator.hasNext();) {
 		    GameObject obj = iterator.next();
 			physicsWorld.destroyBody(obj.getBody());

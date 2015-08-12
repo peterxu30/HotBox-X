@@ -15,11 +15,6 @@ import com.runninggame.utilities.InputHandler;
  *
  */
 public class GameScreen implements Screen {
-	/** Screen width in pixels */
-	private final float SCREEN_WIDTH = Config.SCREEN_WIDTH;
-	
-	/** Screen height in pixels */
-	private final float SCREEN_HEIGHT = Config.SCREEN_HEIGHT;
 	
 	/** Time interval between game engine updates */
 	private final float TIME_STEP = 1/60f;
@@ -44,7 +39,7 @@ public class GameScreen implements Screen {
 		this.game = game;
 		Config.load();
 		world = new GameWorld(Config.gravity, Config.SCALE, Config.waveStart, Config.gameMode);
-		renderer = new GameRenderer(world, SCREEN_WIDTH, SCREEN_HEIGHT, Config.SCALE);
+		renderer = new GameRenderer(world, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT, Config.SCALE);
 		Gdx.input.setInputProcessor(new InputHandler(this));
 	}
 	
@@ -111,7 +106,6 @@ public class GameScreen implements Screen {
 	 */
 	@Override
 	public void hide() {
-		Gdx.app.log("GameScreen", "Hide");
 		dispose();
 	}
 
@@ -121,7 +115,6 @@ public class GameScreen implements Screen {
 	@Override
 	public void dispose() {
 		pause();
-		Gdx.app.log("GameScreen", "Dispose");
 		renderer.dispose();
 		world.dispose();
 	}

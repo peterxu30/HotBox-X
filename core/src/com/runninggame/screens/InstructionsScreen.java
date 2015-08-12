@@ -27,6 +27,7 @@ public class InstructionsScreen implements Screen {
 	/** LibGDX camera for the game. Determines what to display on screen. */
 	private OrthographicCamera camera;
 	
+	/** LibGDX viewport. Relevant in resizing the window. */
 	private Viewport viewport;
 	
 	/** Screen width in pixels */
@@ -35,7 +36,6 @@ public class InstructionsScreen implements Screen {
 	/** Screen height in pixels */
 	public static final float SCREEN_HEIGHT = Config.SCREEN_HEIGHT;
 
-	
 	/** Responsible for drawing sprites and textures */
 	private SpriteBatch batch;
 	
