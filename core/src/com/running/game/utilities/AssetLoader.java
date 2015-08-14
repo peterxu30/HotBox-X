@@ -1,4 +1,4 @@
-package com.runninggame.utilities;
+package com.running.game.utilities;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;

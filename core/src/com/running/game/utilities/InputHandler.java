@@ -1,10 +1,9 @@
-package com.runninggame.utilities;
+package com.running.game.utilities;
 
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
-import com.runninggame.gameobjects.Player;
-import com.runninggame.screens.GameScreen;
+import com.running.game.gameobjects.Player;
+import com.running.game.screens.GameScreen;
 
 /**
  * Handles player controls
@@ -33,7 +32,6 @@ public class InputHandler implements InputProcessor {
 	 */
 	@Override
 	public boolean keyDown(int keycode) {
-		Gdx.app.log("InputHandler", "space down");
 		switch (keycode) {
 			case (Keys.SPACE):
 				player.move();

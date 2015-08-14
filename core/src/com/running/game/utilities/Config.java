@@ -1,4 +1,4 @@
-package com.runninggame.utilities;
+package com.running.game.utilities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Net.HttpMethods;
@@ -6,7 +6,6 @@ import com.badlogic.gdx.Net.HttpRequest;
 import com.badlogic.gdx.Net.HttpResponse;
 import com.badlogic.gdx.Net.HttpResponseListener;
 import com.badlogic.gdx.net.HttpRequestBuilder;
-import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 
@@ -28,15 +27,13 @@ public class Config {
 	public static final float SCREEN_HEIGHT = 480f;
 	
 	/** URL to authenticate game before performing HTTP requests */
-	private static final String LOGIN_URL = "http://localhost:3000/login/authenticate";
+	private static final String LOGIN_URL = "http://ec2-52-8-138-168.us-west-1.compute.amazonaws.com/login/authenticate";
 	
 	/** URL to send game data to. Used by DataPoster */
-	public static final String DATA_URL = "http://localhost:3000/data/";
-	
-//	private static final String CONFIG_URL = "https://localhost:8443/settings/";
+	public static final String DATA_URL = "http://ec2-52-8-138-168.us-west-1.compute.amazonaws.com/data";
 	
 	/** URL to get game settings from */
-	private static final String CONFIG_URL = "http://localhost:3000/settings";
+	private static final String CONFIG_URL = "http://ec2-52-8-138-168.us-west-1.compute.amazonaws.com/settings";
 	
 	/** Game login username */
 	private static final String USERNAME = "hotboxx";
@@ -111,12 +108,45 @@ public class Config {
 	private static JsonValue currentJson;
 	
 	/** JWT token for authentication */
-	public static String tokenString;
+	public static String tokenString = "filler";
+	
+	/**
+	 * Logs into web server
+	 */
+	public static void login() {
+		HttpRequestBuilder requestBuilder = new HttpRequestBuilder();
+		HttpRequest httpRequest = requestBuilder
+				.newRequest().method(HttpMethods.POST)
+				.url(LOGIN_URL)
+				.header("name", USERNAME)
+				.header("password", PASSWORD)
+				.build();
+		Gdx.net.sendHttpRequest(httpRequest, new HttpResponseListener() {
+			
+			@Override
+			public void handleHttpResponse(HttpResponse httpResponse) {
+				Config.tokenString = httpResponse.getResultAsString();
+				JsonValue token = new JsonReader().parse(Config.tokenString);
+				Config.tokenString = token.getString("token");
+				Config.loadJson(); //have to do it here due to asynchronous nature
+			}
+
+			@Override
+			public void failed(Throwable t) {
+				Gdx.app.log("Config", "HTTP request failed!");
+			}
+
+			@Override
+			public void cancelled() {
+				Gdx.app.log("Config", "HTTP request cancelled!");
+			}
+		});
+	}
 	
 	/**
 	 * Logs into server, sends GET request to get game settings in JSON form.
 	 */
-	public static void loadJson() {
+	private static void loadJson() {
 		HttpRequestBuilder requestBuilder = new HttpRequestBuilder();
 		HttpRequest httpRequest = requestBuilder
 				.newRequest().method(HttpMethods.GET)
@@ -149,39 +179,6 @@ public class Config {
 			/**
 			 * GET request cancelled
 			 */
-			@Override
-			public void cancelled() {
-				Gdx.app.log("Config", "HTTP request cancelled!");
-			}
-		});
-	}
-	
-	/**
-	 * Logs into web server
-	 */
-	public static void login() {
-		HttpRequestBuilder requestBuilder = new HttpRequestBuilder();
-		HttpRequest httpRequest = requestBuilder
-				.newRequest().method(HttpMethods.POST)
-				.url(LOGIN_URL)
-				.header("name", USERNAME)
-				.header("password", PASSWORD)
-				.build();
-		Gdx.net.sendHttpRequest(httpRequest, new HttpResponseListener() {
-			
-			@Override
-			public void handleHttpResponse(HttpResponse httpResponse) {
-				final int statusCode = httpResponse.getStatus().getStatusCode();
-				Config.tokenString = httpResponse.getResultAsString();
-				JsonValue token = new JsonReader().parse(Config.tokenString);
-				Config.tokenString = token.getString("token");
-			}
-
-			@Override
-			public void failed(Throwable t) {
-				Gdx.app.log("Config", "HTTP request failed!");
-			}
-
 			@Override
 			public void cancelled() {
 				Gdx.app.log("Config", "HTTP request cancelled!");

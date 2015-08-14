@@ -1,4 +1,4 @@
-package com.runninggame.screens;
+package com.running.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -8,9 +8,9 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.hotboxx.GameMain;
-import com.runninggame.utilities.AssetLoader;
-import com.runninggame.utilities.Config;
+import com.running.game.GameMain;
+import com.running.game.utilities.AssetLoader;
+import com.running.game.utilities.Config;
 
 /**
  * This screen shows when all matches are over.

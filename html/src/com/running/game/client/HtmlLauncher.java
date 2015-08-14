@@ -1,10 +1,10 @@
 package com.running.game.client;
 
 import com.badlogic.gdx.ApplicationListener;
-import com.badlogic.gdx.Game; //
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.backends.gwt.GwtApplication;
 import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
-import com.runninggame.RunningGame;
+import com.running.game.GameMain;
 
 public class HtmlLauncher extends GwtApplication {
 
@@ -15,6 +15,6 @@ public class HtmlLauncher extends GwtApplication {
 
         @Override
         public ApplicationListener getApplicationListener () {
-                return new RunningGame();
+                return new GameMain();
         }
 }

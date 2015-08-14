@@ -1,4 +1,4 @@
-package com.runninggame.distributions;
+package com.running.game.distributions;
 
 import java.util.Random;
 

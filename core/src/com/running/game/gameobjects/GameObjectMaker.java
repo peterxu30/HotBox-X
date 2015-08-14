@@ -1,11 +1,11 @@
-package com.runninggame.gameobjects;
+package com.running.game.gameobjects;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 import com.badlogic.gdx.physics.box2d.World;
-import com.runninggame.distributions.NormalDistribution;
-import com.runninggame.distributions.UniformIntegerDistribution;
+import com.running.game.distributions.NormalDistribution;
+import com.running.game.distributions.UniformIntegerDistribution;
 
 /**
  * Responsible for generating new 'waves' of objects (rewards and obstacles) in the game.

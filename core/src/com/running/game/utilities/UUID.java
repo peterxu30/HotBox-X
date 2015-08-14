@@ -1,4 +1,4 @@
-package com.runninggame.utilities;
+package com.running.game.utilities;
 /**
  * I borrowed this code for UUID to get GWT to compile 
  * @author Robert Kieffer

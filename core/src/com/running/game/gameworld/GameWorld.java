@@ -1,9 +1,8 @@
-package com.runninggame.gameworld;
+package com.running.game.gameworld;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -15,12 +14,12 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.runninggame.gameobjects.GameObject;
-import com.runninggame.gameobjects.GameObjectMaker;
-import com.runninggame.gameobjects.NewWaveDetector;
-import com.runninggame.gameobjects.Player;
-import com.runninggame.utilities.Config;
-import com.runninggame.utilities.DataPoster;
+import com.running.game.gameobjects.GameObject;
+import com.running.game.gameobjects.GameObjectMaker;
+import com.running.game.gameobjects.NewWaveDetector;
+import com.running.game.gameobjects.Player;
+import com.running.game.utilities.Config;
+import com.running.game.utilities.DataPoster;
 
 /**
  * GameWorld takes care of all game logic. This includes wave spawning, score keeping,

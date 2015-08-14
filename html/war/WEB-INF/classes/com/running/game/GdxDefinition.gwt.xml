@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit trunk//EN" "http://google-web-toolkit.googlecode.com/svn/trunk/distro-source/core/src/gwt-module.dtd">
 <module rename-to="html">
-    <!--<inherits name='org.eclipse.jetty.servlet.listener.ELContextCleaner' />-->
 	<inherits name='com.badlogic.gdx.backends.gdx_backends_gwt' />
 	<inherits name='com.badlogic.gdx.physics.box2d.box2d-gwt' />
 	<inherits name='com.badlogic.gdx.controllers.controllers-gwt' />
 
-	<!--<inherits name='com.runninggame.RunningGame' />-->
-	<inherits name='RunningGame' />
+	<inherits name='runninggame' />
 	
 	<inherits name='distributions' />
 	<inherits name='gameobjects' />
 	<inherits name='gameworld' />
-	<inherits name='helpers' />
+	<inherits name='utilities' />
 	<inherits name='screens' />
-	<inherits name='tween' />
 	
 	<entry-point class='com.running.game.client.HtmlLauncher' />
 	

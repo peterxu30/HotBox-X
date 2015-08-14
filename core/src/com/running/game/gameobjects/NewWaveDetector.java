@@ -1,4 +1,4 @@
-package com.runninggame.gameobjects;
+package com.running.game.gameobjects;
 
 import com.badlogic.gdx.physics.box2d.World;
 

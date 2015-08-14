@@ -1,4 +1,4 @@
-package com.runninggame.utilities;
+package com.running.game.utilities;
 
 import java.util.ArrayList;
 
@@ -11,7 +11,7 @@ import com.badlogic.gdx.net.HttpRequestBuilder;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import com.badlogic.gdx.utils.TimeUtils;
-import com.runninggame.gameobjects.GameObject;
+import com.running.game.gameobjects.GameObject;
 
 /**
  * Sends game data to web server
@@ -211,103 +211,6 @@ public class DataPoster {
 			}
 		});
 		
-	}
-	
-	/**
-	 * Main class to be serialized to JSON
-	 * @author Peter
-	 *
-	 */
-	private static class Data {
-		
-		/** User ID */
-		private String id;
-		
-		/** Game number */
-		private int game;
-		
-		/** All games data */
-		private ArrayList<DataList> gameData;
-		
-		/**
-		 * Class constructor
-		 */
-		private Data() {
-			gameData = new ArrayList<DataList>();
-		}
-		
-		/**
-		 * Add dataList to current Data object
-		 * @param dataList
-		 */
-		private void add(DataList dataList) {
-			gameData.add(dataList);
-		}
-	}
-	
-	/**
-	 * Helper class of Data class. Will get serialized into JSON
-	 * @author Peter
-	 *
-	 */
-	private static class DataList {
-		
-		/** timeStamp of this snapshot */
-		private double timeStamp;
-		
-		/** Did wave spawn */
-		private boolean waveSpawned;
-		
-		/** Did player jump */
-		private boolean pressedSpace;
-		
-		/** Was there a player-obstacle collision */
-		private boolean obstacleCollision;
-		
-		/** Did player collect a reward */
-		private boolean rewarded;
-		
-		/** Player y-coordinate at moment of snapshot */
-		private float playerY;
-		
-		/** Reward x-coordinate at moment of snapshot, 0 if N/A */
-		private float rewardX;
-		
-		/** Reward y-coordinate at moment of snapshot, 0 if N/A */
-		private float rewardY;
-		
-		/** Number of obstacles in wave */
-		private int numberOfObstacles;
-		
-		/** First obstacle x-coordinate */
-		private float obstacle1X;
-		
-		/** First obstacle y-coordinate */
-		private float obstacle1Y;
-		
-		/** First obstacle height */
-		private float obstacle1Height;
-		
-		/** Second obstacle x-coordinate */
-		private float obstacle2X;
-		
-		/** Second obstacle y-coordinate */
-		private float obstacle2Y;
-		
-		/** Second obstacle height */
-		private float obstacle2Height;
-		
-		/** Third obstacle x-coordinate */
-		private float obstacle3X;
-		
-		/** Third obstacle y-coordinate */
-		private float obstacle3Y;
-		
-		/** Third obstacle height */
-		private float obstacle3Height;
-		
-		/** Current score */
-		private int score;
 	}
 	
 }

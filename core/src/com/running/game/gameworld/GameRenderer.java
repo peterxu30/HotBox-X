@@ -1,4 +1,4 @@
-package com.runninggame.gameworld;
+package com.running.game.gameworld;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -7,9 +7,9 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.runninggame.gameobjects.GameObject;
-import com.runninggame.gameobjects.Player;
-import com.runninggame.utilities.AssetLoader;
+import com.running.game.gameobjects.GameObject;
+import com.running.game.gameobjects.Player;
+import com.running.game.utilities.AssetLoader;
 
 /**
  * GameRenderer performs the all of the game's visual rendering.
@@ -104,7 +104,7 @@ public class GameRenderer {
         drawObjects();
         drawBoundaries();
         font.draw(batch, "Score: " + Integer.toString(gameWorld.getScore()), 100f, 50f);
-        font.draw(batch, "FPS: " + Float.toString(1/delta), 100f, 80f);
+//        font.draw(batch, "FPS: " + Float.toString(1/delta), 100f, 80f);
         batch.end();
 	}
 	

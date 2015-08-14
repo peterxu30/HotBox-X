@@ -1,13 +1,13 @@
-package com.runninggame.screens;
+package com.running.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.hotboxx.GameMain;
-import com.runninggame.gameworld.GameRenderer;
-import com.runninggame.gameworld.GameWorld;
-import com.runninggame.utilities.Config;
-import com.runninggame.utilities.DataPoster;
-import com.runninggame.utilities.InputHandler;
+import com.running.game.GameMain;
+import com.running.game.gameworld.GameRenderer;
+import com.running.game.gameworld.GameWorld;
+import com.running.game.utilities.Config;
+import com.running.game.utilities.DataPoster;
+import com.running.game.utilities.InputHandler;
 
 /**
  * GameScreen is the screen where the game is played.
