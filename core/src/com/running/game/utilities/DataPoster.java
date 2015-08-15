@@ -45,13 +45,23 @@ public class DataPoster {
 	private static long time;
 	
 	/** Randomly generated user id */
-	private static final String id = UUID.uuid();
+	private static String id;
+//	private static final String id = UUID.uuid();
 	
 	/** Current game data */
 	private static Data currentData;
 	
 	/** All games data */
-	private static ArrayList<Data> allData = new ArrayList<Data>();
+	private static ArrayList<Data> allData;
+	
+	/**
+	 * Set player id
+	 */
+	public static void setUp() {
+		id = UUID.uuid();
+		gameNumber = 0;
+		allData = new ArrayList<Data>();
+	}
 	
 	/**
 	 * Reset time for new game.
@@ -178,7 +188,7 @@ public class DataPoster {
 		jsonObj.setUsePrototypes(false);
 		String json = jsonObj.toJson(allData);
 				
-		System.out.println(allData.size());
+		System.out.println("AllData size: " + allData.size());
 		
 		HttpRequestBuilder requestBuilder = new HttpRequestBuilder();
 		HttpRequest httpRequest = requestBuilder

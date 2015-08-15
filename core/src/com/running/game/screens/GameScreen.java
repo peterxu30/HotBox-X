@@ -70,6 +70,7 @@ public class GameScreen implements Screen {
 			DataPoster.newRound(Config.getCurrentGame());
 			if (Config.gamesOver()) {
 				DataPoster.sendData();
+				Config.reset();
 				game.setScreen(new EndScreen(game));
 			} else {
 				game.setScreen(new GameScreen(game));

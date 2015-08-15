@@ -71,7 +71,6 @@ public class EndScreen implements Screen {
 		gameOverSprite.draw(batch);
 		batch.end();
 		if (Gdx.input.isKeyJustPressed(Keys.SPACE)) {
-			Config.reset();
 			game.setScreen(new InstructionsScreen(game));
 		}
 	}

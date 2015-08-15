@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.running.game.GameMain;
 import com.running.game.utilities.AssetLoader;
 import com.running.game.utilities.Config;
+import com.running.game.utilities.DataPoster;
 
 /**
  * Screen showed at start of game with instructions
@@ -45,6 +46,7 @@ public class InstructionsScreen implements Screen {
 	 * @param game: Main game object
 	 */
 	public InstructionsScreen(GameMain game) {
+		DataPoster.setUp();
 		this.game = game;
 		
 		camera = new OrthographicCamera();
