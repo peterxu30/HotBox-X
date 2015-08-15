@@ -106,7 +106,7 @@ public class GameRenderer {
         drawBoundaries();
         font.draw(batch, "Score: " + Integer.toString(gameWorld.getScore()), 100f, 50f);
         if ("penalty".equals(Config.gameMode)) {
-        	font.draw(batch, "Mode: Penalty -" + Config.penaltyValue, 70f, 70f);
+        	font.draw(batch, "Mode: penalty -" + Config.penaltyValue, 70f, 70f);
         } else {
         	font.draw(batch, "Mode: " + Config.gameMode, 70f, 70f);
         }
