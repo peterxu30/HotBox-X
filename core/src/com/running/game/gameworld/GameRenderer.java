@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.running.game.gameobjects.GameObject;
 import com.running.game.gameobjects.Player;
 import com.running.game.utilities.AssetLoader;
+import com.running.game.utilities.Config;
 
 /**
  * GameRenderer performs the all of the game's visual rendering.
@@ -104,6 +105,11 @@ public class GameRenderer {
         drawObjects();
         drawBoundaries();
         font.draw(batch, "Score: " + Integer.toString(gameWorld.getScore()), 100f, 50f);
+        if ("penalty".equals(Config.gameMode)) {
+        	font.draw(batch, "Mode: Penalty -" + Config.penaltyValue, 70f, 70f);
+        } else {
+        	font.draw(batch, "Mode: " + Config.gameMode, 70f, 70f);
+        }
 //        font.draw(batch, "FPS: " + Float.toString(1/delta), 100f, 80f);
         batch.end();
 	}
