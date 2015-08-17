@@ -198,6 +198,7 @@ public class DataPoster {
 				.header("accept", "application/json")
 				.header("x-access-token", Config.tokenString)
 				.content(json)
+				.timeout(5000)
 				.build();
 		Gdx.net.sendHttpRequest(httpRequest, new HttpResponseListener() {
 			
@@ -211,6 +212,7 @@ public class DataPoster {
 			@Override
 			public void failed(Throwable t) {
 				Gdx.app.log("DataPoster", "HTTP request failed!");
+				sendData();
 			}
 
 			@Override
