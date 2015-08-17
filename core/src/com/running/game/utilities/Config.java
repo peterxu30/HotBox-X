@@ -92,9 +92,6 @@ public class Config {
 	/** Game mode */
 	public static String gameMode = "penalty";
 	
-	/** Are game settings loaded */
-	private static boolean loaded;
-	
 	/** Number of games in the set */
 	private static int numberOfGames;
 	
@@ -120,6 +117,7 @@ public class Config {
 				.url(LOGIN_URL)
 				.header("name", USERNAME)
 				.header("password", PASSWORD)
+				.timeout(5000)
 				.build();
 		Gdx.net.sendHttpRequest(httpRequest, new HttpResponseListener() {
 			
@@ -134,6 +132,7 @@ public class Config {
 			@Override
 			public void failed(Throwable t) {
 				Gdx.app.log("Config", "HTTP request failed!");
+				login();
 			}
 
 			@Override
@@ -152,6 +151,7 @@ public class Config {
 				.newRequest().method(HttpMethods.GET)
 				.url(CONFIG_URL)
 				.header("x-access-token", Config.tokenString)
+				.timeout(5000)
 				.build();
 		Gdx.net.sendHttpRequest(httpRequest, new HttpResponseListener() {
 			
@@ -164,7 +164,6 @@ public class Config {
 	            json = new JsonReader().parse(settingsJson);
 	            numberOfGames = json.getInt("length");
 	            json = json.require("settings");
-	            loaded = true;
 			}
 
 			/**
@@ -172,8 +171,8 @@ public class Config {
 			 */
 			@Override
 			public void failed(Throwable t) {
-				loaded = false;
 				Gdx.app.log("Config", "HTTP request failed!");
+				loadJson();
 			}
 			
 			/**
@@ -190,27 +189,25 @@ public class Config {
 	 * Loads current game settings
 	 */
 	public static void load() {
-		if (loaded) {
-			currentJson = json.require(currentGame);
-			playerSpeed = currentJson.getFloat("playerSpeed");
-			playerWidth = currentJson.getFloat("playerWidth");
-			playerHeight = currentJson.getFloat("playerHeight");
-			playerX = currentJson.getFloat("playerX");
-			playerY = currentJson.getFloat("playerY");
-			gravity = currentJson.getFloat("gravity");
-			objectWidth = currentJson.getFloat("objectWidth");
-			objectSpeed = currentJson.getFloat("objectSpeed");
-			objectSpawnX = currentJson.getFloat("objectSpawnX");
-			normalMean = currentJson.getFloat("normalMean");
-			normalSD = currentJson.getFloat("normalSD");
-			waveStart = currentJson.getFloat("waveStart");
-			rewardValue = currentJson.getInt("rewardValue");
-			penaltyValue = currentJson.getInt("penaltyValue");
-			minScore = currentJson.getInt("minScore");
-			distribution = currentJson.getString("distribution");
-			gameMode = currentJson.getString("gameMode");
-			currentGame += 1;
-		}
+		currentJson = json.require(currentGame);
+		playerSpeed = currentJson.getFloat("playerSpeed");
+		playerWidth = currentJson.getFloat("playerWidth");
+		playerHeight = currentJson.getFloat("playerHeight");
+		playerX = currentJson.getFloat("playerX");
+		playerY = currentJson.getFloat("playerY");
+		gravity = currentJson.getFloat("gravity");
+		objectWidth = currentJson.getFloat("objectWidth");
+		objectSpeed = currentJson.getFloat("objectSpeed");
+		objectSpawnX = currentJson.getFloat("objectSpawnX");
+		normalMean = currentJson.getFloat("normalMean");
+		normalSD = currentJson.getFloat("normalSD");
+		waveStart = currentJson.getFloat("waveStart");
+		rewardValue = currentJson.getInt("rewardValue");
+		penaltyValue = currentJson.getInt("penaltyValue");
+		minScore = currentJson.getInt("minScore");
+		distribution = currentJson.getString("distribution");
+		gameMode = currentJson.getString("gameMode");
+		currentGame += 1;
 	}
 	
 	/**
