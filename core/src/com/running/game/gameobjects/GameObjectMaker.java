@@ -28,6 +28,12 @@ public class GameObjectMaker {
 	/** Width of game's vertical boundaries */
 	private float boundary;
 	
+	/** Highest point of playing field */
+	private float ceiling;
+	
+	/** Lowest point of playing field */
+	private float floor;
+	
 	/** Width of a zone */
 	private float zoneWidth;
 	
@@ -52,6 +58,9 @@ public class GameObjectMaker {
 	
 	/** Width of obstacle */
 	private float width;
+	
+	/** Width of gap */
+	private float gapWidth;
 	
 	/** Speed of objects in Box2D units */
 	private float speed;
@@ -98,6 +107,16 @@ public class GameObjectMaker {
 	}
 	
 	/**
+	 * Set width of gap in waves.
+	 * @param width: Width of gaps between obstacles.
+	 * @return current gameObjectMaker
+	 */
+	public GameObjectMaker setGapWidth(float width) {
+		this.gapWidth = width;
+		return this;
+	}
+	
+	/**
 	 * Set speed of objects in Box2D units
 	 * @param speed: Object speed in Box2D units
 	 * @return current gameObjectMaker
@@ -114,6 +133,8 @@ public class GameObjectMaker {
 	 */
 	public GameObjectMaker setBoundary(float boundary) {
 		this.boundary = boundary;
+		this.ceiling = boundary;
+		this.floor = 480f - boundary;
 		this.zoneWidth = (480f - (2 * boundary)) / NUMBER_OF_ZONES;
 		return this;
 	}
@@ -146,6 +167,7 @@ public class GameObjectMaker {
 		boolean rewarded = false;
 		float rewardY = boundary + zoneWidth;
 		int numberGaps =  (randomize() % NUMBER_OF_GAPS) + 1;
+		float[][] gapCoordinates = new float[numberGaps][2];
 		//zones represents the zones objects can spawn in
 		boolean[] zones = new boolean[NUMBER_OF_ZONES + 1];
 		while (numberGaps > 0) {
@@ -153,14 +175,10 @@ public class GameObjectMaker {
 			int gap = randomize();
 			//false = not a gap
 			if (zones[gap] == false) {
-				if (gap > 0) {
-					//setting the zone to be a gap
-					zones[gap - 1] = true;
-				}
-				//gaps take up 3 indices in the array if possible. represents 2*zoneWidth gap
-				if (gap < zones.length - 1) {
-					zones[gap + 1] = true;
-				}
+				float gapY1 = ((gap + 1) * zoneWidth) + boundary - (gapWidth / 2.0f);
+				float gapY2 = ((gap + 1) * zoneWidth) + boundary + (gapWidth / 2.0f);
+				gapCoordinates[numberGaps - 1][0] = gapY1;
+				gapCoordinates[numberGaps - 1][1] = gapY2;
 				//create the reward if hasn't been created yet.
 				if (!rewarded) {
 					rewarded = true;
@@ -170,9 +188,25 @@ public class GameObjectMaker {
 				numberGaps -= 1;
 			}
 		}
-		//off screen zone. for NewWaveSignal object
-		zones[NUMBER_OF_ZONES] = true;
-		return createObjects(zones, rewarded, rewardY);
+		//keep higher gap in first slot.
+		if (gapCoordinates.length > 1) {
+			if (gapCoordinates[1][0] < gapCoordinates[0][0]) {
+				float[] oldY1 = gapCoordinates[0];
+				gapCoordinates[0] = gapCoordinates[1];
+				gapCoordinates[1] = oldY1;
+			}
+			
+			//merge gaps if space between is too small for obstacle
+			if (gapCoordinates[0][1] + zoneWidth >= gapCoordinates[1][0]) {
+				float y1 = gapCoordinates[0][0];
+				float y2 = gapCoordinates[1][1];
+				gapCoordinates = new float[1][2];
+				gapCoordinates[0][0] = y1;
+				gapCoordinates[0][1] = y2;
+			}
+		}
+		
+		return createObjects(gapCoordinates, rewarded, rewardY);
 	}
 	
 	/**
@@ -182,45 +216,41 @@ public class GameObjectMaker {
 	 * @param rewardY: Y-coordinate of reward object in Box2D units
 	 * @return ArrayList that represents the wave.
 	 */
-	private ArrayList<GameObject> createObjects(boolean[] zones, boolean rewarded, float rewardY) {
+	private ArrayList<GameObject> createObjects(float[][] gapCoordinates, boolean rewarded, float rewardY) {
 		ArrayList<GameObject> wave = new ArrayList<GameObject>();
 		if (rewarded) {
 			wave = createReward(wave, rewardY);
 		}
-		int firstObs = 0;
-		int lastObs = 0;
-		boolean unbroken = false;
-		boolean obs = false;
-		/*obstacles are of variable width and width must be calculated.
-		Loop runs through all the zones, checks if each zone should have gap or not.
-		If zone does not have gap and was preceded by a non gap zone, then an obstacle of
-		2 zoneWidth will be created. Checks for unbroken chain of non gap zones to determine width.
-		Constructs new obstacles when chain is broken. */
-		for (int i = 0; i < zones.length; i++) {
-			if (zones[i] == false) {
-				if (unbroken) {
-					lastObs = i;
-				} else {
-					firstObs = i;
-					lastObs = i;
-					unbroken = true;
-				}
-				obs = true;
-			} else {
-				if (obs) {
-					float obsHeight = (lastObs - firstObs + 2) * zoneWidth;
-					float y = ((zoneWidth * (firstObs + 1) + boundary) 
-								+ (zoneWidth * (lastObs + 1) + boundary)) / 2f;
-					createObstacle(wave, obsHeight, y);
-				}
-				unbroken = false;
-				obs = false;
-			}
+		
+		if (gapCoordinates[0][0] - zoneWidth >= ceiling) {
+			float height = gapCoordinates[0][0] - ceiling;
+			float y = (height / 2.0f) + ceiling;
+			createObstacle(wave, height, y);
 		}
+		
+		if (gapCoordinates.length > 1) {
+			//middle obstacle
+			float height = gapCoordinates[1][0] - gapCoordinates[0][1];
+			float y = (height / 2.0f) + gapCoordinates[0][1];
+			createObstacle(wave, height, y);
+			
+			//last obstacle
+			if (gapCoordinates[1][1] + zoneWidth <= floor) {
+				float height1 = floor - gapCoordinates[1][1];
+				float y1 = (height1 / 2.0f) + gapCoordinates[1][1];
+				createObstacle(wave, height1, y1);
+			}
+		} else if (gapCoordinates[0][1] + zoneWidth <= floor) {
+			float height = floor - gapCoordinates[0][1];
+			float y = (height / 2.0f) + gapCoordinates[0][1];
+			createObstacle(wave, height, y);
+		}
+		
 		//for signalling new wave to spawn
 		NewWaveSignal nws = (NewWaveSignal) new NewWaveSignal(world, 20f / scale, 20f / scale)
 			.setSpeed(speed)
 			.setPosition(spawnX / scale, 490f / scale);
+		
 		wave.add(nws);
 		return wave;
 	}
@@ -260,16 +290,16 @@ public class GameObjectMaker {
 	 */
 	public int randomize() {
 		switch (distType) {
-		case "normal":
-			int random = (int) ((NormalDistribution) distribution).sample();
-			if (random < 0) {
-				random = 0;
-			} else if (random >= NUMBER_OF_ZONES - 2) {
-				random = NUMBER_OF_ZONES - 1;
-			}
-			return random;
-		case "uniform":
-			return ((UniformIntegerDistribution) distribution).sample();
+			case "normal":
+				int random = (int) ((NormalDistribution) distribution).sample();
+				if (random < 0) {
+					random = 0;
+				} else if (random >= NUMBER_OF_ZONES - 2) {
+					random = NUMBER_OF_ZONES - 1;
+				}
+				return random;
+			case "uniform":
+				return ((UniformIntegerDistribution) distribution).sample();
 		}
 		Random randomizer = new Random();
 		return randomizer.nextInt(NUMBER_OF_ZONES - 1);

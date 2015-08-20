@@ -16,6 +16,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.running.game.gameobjects.GameObject;
 import com.running.game.gameobjects.GameObjectMaker;
+import com.running.game.gameobjects.GameObjectMaker;
 import com.running.game.gameobjects.NewWaveDetector;
 import com.running.game.gameobjects.Player;
 import com.running.game.utilities.Config;
@@ -113,13 +114,14 @@ public class GameWorld {
 		wave = new ArrayList<GameObject>();
 		
 		objectMaker = new GameObjectMaker()
-			.setWorld(physicsWorld)
-			.setScale(scale)
-			.setBoundary(BOUNDARY_WIDTH)
-			.setDistribution(Config.distribution, Config.normalMean, Config.normalSD)
-			.setSpawn(Config.objectSpawnX)
-			.setObjectWidth(Config.objectWidth)
-			.setSpeed(Config.objectSpeed);
+		.setWorld(physicsWorld)
+		.setScale(scale)
+		.setBoundary(BOUNDARY_WIDTH)
+		.setDistribution(Config.distribution, Config.normalMean, Config.normalSD)
+		.setSpawn(Config.objectSpawnX)
+		.setObjectWidth(Config.objectWidth)
+		.setGapWidth(Config.gapWidth)
+		.setSpeed(Config.objectSpeed);
 		
 		newWave = true;
 	}

@@ -59,6 +59,9 @@ public class Config {
 	/** Game gravity in Box2D units */
 	public static float gravity = 14f;
 	
+	/** Gap width between obstacles */
+	public static float gapWidth = 88f;
+	
 	/** Object width in pixels */
 	public static float objectWidth = 18f;
 	
@@ -196,6 +199,7 @@ public class Config {
 		playerX = currentJson.getFloat("playerX");
 		playerY = currentJson.getFloat("playerY");
 		gravity = currentJson.getFloat("gravity");
+		gapWidth = currentJson.getFloat("gapWidth");
 		objectWidth = currentJson.getFloat("objectWidth");
 		objectSpeed = currentJson.getFloat("objectSpeed");
 		objectSpawnX = currentJson.getFloat("objectSpawnX");

@@ -46,7 +46,6 @@ public class DataPoster {
 	
 	/** Randomly generated user id */
 	private static String id;
-//	private static final String id = UUID.uuid();
 	
 	/** Current game data */
 	private static Data currentData;
