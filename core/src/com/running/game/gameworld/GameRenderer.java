@@ -1,5 +1,7 @@
 package com.running.game.gameworld;
 
+import java.math.BigDecimal;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -11,6 +13,7 @@ import com.running.game.gameobjects.GameObject;
 import com.running.game.gameobjects.Player;
 import com.running.game.utilities.AssetLoader;
 import com.running.game.utilities.Config;
+import com.running.game.utilities.TimeManager;
 
 /**
  * GameRenderer performs the all of the game's visual rendering.
@@ -34,6 +37,12 @@ public class GameRenderer {
 	
 	/** Font for score text */
 	private BitmapFont font;
+	
+	/** Starting Y-coordinate of in-game text. */
+    private float textStartY = 50f;
+    
+    /** Vertical gap between lines of text */
+    private float textGapHeight = 20f;
 	
 	/** Conversion scale from Box2D units to pixels */
 	private float scale;
@@ -99,19 +108,12 @@ public class GameRenderer {
 	public void render(float delta) {
 		Gdx.gl.glClearColor(96 / 275f, 96 / 275f, 96 / 275f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        
+
         batch.begin();
         drawPlayer();
         drawObjects();
         drawBoundaries();
-        font.draw(batch, "Score: " + Integer.toString(gameWorld.getScore()), 100f, 50f);
-        if ("penalty".equals(Config.gameMode)) {
-        	font.draw(batch, "Mode: penalty -" + Config.penaltyValue, 70f, 70f);
-        	font.draw(batch, "Min Score: " + Config.minScore, 87f, 90f);
-        } else {
-        	font.draw(batch, "Mode: " + Config.gameMode, 70f, 70f);
-        }
-//        font.draw(batch, "FPS: " + Float.toString(1/delta), 100f, 80f);
+        drawText();
         batch.end();
 	}
 	
@@ -149,6 +151,36 @@ public class GameRenderer {
         		batch.draw(AssetLoader.rewardTexture, objX, objY, objWidth, objHeight);
         	}
         }
+	}
+	
+	/**
+	 * Draws all the in-game text.
+	 */
+	private void drawText() {
+		int count = 0;
+		font.draw(batch, "Score: " + Integer.toString(gameWorld.getScore()), 100f, incrementTextY(count++));
+        if ("penalty".equals(Config.gameMode)) {
+        	font.draw(batch, "Mode: penalty -" + Config.penaltyValue, 100f, incrementTextY(count++));
+        	font.draw(batch, "Min Score: " + Config.minScore, 100f, incrementTextY(count++));
+        } else {
+        	font.draw(batch, "Mode: " + Config.gameMode, 100f, incrementTextY(count++));
+        }
+        if (Config.timed) {
+        	BigDecimal bd = new BigDecimal(Config.timeLimit - TimeManager.getSecondsTime());
+        	bd = bd.setScale(2, BigDecimal.ROUND_HALF_UP);
+        	double time = bd.doubleValue();
+            font.draw(batch, "Time Limit: " + time, 100f, textStartY + (count++) * textGapHeight);
+        }
+//        font.draw(batch, "FPS: " + Float.toString(1/delta), 100f, textStartY + (count++) * textGapHeight);
+	}
+	
+	/**
+	 * Get the y-coordinate of next line of text.
+	 * @param count: Counter variable of which line
+	 * @return y-coordinate in pixels
+	 */
+	private float incrementTextY(int count) {
+		return textStartY + (count * textGapHeight);
 	}
 	
 	/**

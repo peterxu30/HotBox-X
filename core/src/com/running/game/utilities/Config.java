@@ -95,6 +95,12 @@ public class Config {
 	/** Game mode */
 	public static String gameMode = "penalty";
 	
+	/** Game ends after some time or not */
+	public static boolean timed = true;
+	
+	/** Time for round if timed mode. Time in seconds */
+	public static double timeLimit = 10;
+	
 	/** Number of games in the set */
 	private static int numberOfGames;
 	
@@ -211,6 +217,8 @@ public class Config {
 		minScore = currentJson.getInt("minScore");
 		distribution = currentJson.getString("distribution");
 		gameMode = currentJson.getString("gameMode");
+		timed = currentJson.getBoolean("timed");
+		timeLimit = currentJson.getDouble("timeLimit");
 		currentGame += 1;
 	}
 	

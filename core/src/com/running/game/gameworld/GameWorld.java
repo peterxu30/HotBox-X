@@ -16,11 +16,11 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.running.game.gameobjects.GameObject;
 import com.running.game.gameobjects.GameObjectMaker;
-import com.running.game.gameobjects.GameObjectMaker;
 import com.running.game.gameobjects.NewWaveDetector;
 import com.running.game.gameobjects.Player;
 import com.running.game.utilities.Config;
 import com.running.game.utilities.DataPoster;
+import com.running.game.utilities.TimeManager;
 
 /**
  * GameWorld takes care of all game logic. This includes wave spawning, score keeping,
@@ -90,7 +90,7 @@ public class GameWorld {
 	 */
 	public GameWorld(float gravityY, float scale, float spawnPoint, String gameMode) {
 		// Set up the data recorder for this round
-		DataPoster.resetTime();
+		DataPoster.reset();
 		
 		this.scale = scale;
 		this.spawnPoint = spawnPoint;
@@ -241,9 +241,10 @@ public class GameWorld {
 	
 	/**
 	 * Update the physics engine and create new waves
-	 * @param delta: Time inverval between updates
+	 * @param delta: Time interval between updates
 	 */
 	public void update(float delta) {
+		checkTime();
 		physicsWorld.step(delta, 8, 3);
 		
 		if (newWave) {
@@ -251,6 +252,13 @@ public class GameWorld {
 			newWave = false;
 		}
 		removeObjects();
+	}
+	
+	private void checkTime() {
+		System.out.println(TimeManager.getSecondsTime());
+		if (Config.timed && TimeManager.getSecondsTime() > Config.timeLimit) {
+			setGameOver();
+		}
 	}
 	
 	/**

@@ -10,7 +10,6 @@ import com.badlogic.gdx.Net.HttpResponseListener;
 import com.badlogic.gdx.net.HttpRequestBuilder;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
-import com.badlogic.gdx.utils.TimeUtils;
 import com.running.game.gameobjects.GameObject;
 
 /**
@@ -41,9 +40,6 @@ public class DataPoster {
 	/** Current game number */
 	private static int gameNumber;
 	
-	/** In-game time */
-	private static long time;
-	
 	/** Randomly generated user id */
 	private static String id;
 	
@@ -65,8 +61,8 @@ public class DataPoster {
 	/**
 	 * Reset time for new game.
 	 */
-	public static void resetTime() {
-		time = TimeUtils.millis();
+	public static void reset() {
+		TimeManager.resetTime();
 		currentData = new Data();
 		currentData.id = id;
 		currentData.game = gameNumber;
@@ -124,7 +120,7 @@ public class DataPoster {
 	public static void createData(float playerY, ArrayList<GameObject> wave, int score) {
 		DataList dataList = new DataList();
 		
-		dataList.timeStamp = (TimeUtils.millis() - time) / 1000.0;
+		dataList.timeStamp = TimeManager.getSecondsTime();
 		dataList.waveSpawned = newWave;
 		dataList.pressedSpace = jumped;
 		dataList.obstacleCollision = obstacleCollision;
